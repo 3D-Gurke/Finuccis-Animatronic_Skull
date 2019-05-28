@@ -3,6 +3,8 @@
 
 This project was inspired by  www.youtube.com/watch?v=b6z9ToMeCnw
 
+Fuction Test of this project: www.youtube.com/watch?v=REK2ZNp7vrE&feature=youtu.be
+
 When I found out, how expensive even only one animated skull including animatronic kits was, I decided to use my 3D printer 
 to produce my own animatronic skull.
 I live in Germany and I was unable to obtain the Lindberg skull in Europe, for which many animatronic kits are available.
