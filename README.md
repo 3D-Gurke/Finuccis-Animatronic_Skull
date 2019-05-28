@@ -26,12 +26,12 @@ I am an absolute beginner in programming ARDUINO and what I present here is most
 It works so far, but as the project is not finished as yet, it is far from perfection or even elegance, 
 so do not massacre me for the imperfect code, please  !  :-)
 Each skull must be individually tested on each servo for the physical movement limits- I will include the test program as well.
-I used the cheapest servos available from China. Servo MG945 & SG90. These do not center correctly and every time you hit a specific
-angle defined in the program, the servos end up in another position near by. Absolute unacceptable if used in an RC model, 
-for a project like this, they do okay.
+I used the cheapest servos available from China. Servo MG945 & SG90. These do not center correctly and every time you hit a specific angle defined in the program, the servos end up in another position near by. Absolute unacceptable if used in an RC model, for a project like this, they do okay.
 I have not specifically calculated the cost of a complete skull, but I would estimate 1 skull with servos and Arduino to be 
 below 100 EUR. 
 A pretty attractive price for an animatronic 3 axis skull with RGB lighted 2 axis eyes.
+All hole measures of the printable parts have been chosen small so you can drill the holes to the dimension you need.
+This way you can easily convert from metric to imperial measure. For instance: The tube for the eyes servo board to connect to the center eye ball is 6mm or approximately 1/4 inch. You will have to drill the holes in the board and the center eye ball accordingly.
 
 Please find all necessary files in the branches.
 You may remix as you see fit. Have fun und viel Glück!
