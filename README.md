@@ -3,8 +3,6 @@
 
 This project was inspired by  www.youtube.com/watch?v=b6z9ToMeCnw
 
-Fuction Test of this project: www.youtube.com/watch?v=REK2ZNp7vrE&feature=youtu.be
-
 When I found out, how expensive even only one animated skull including animatronic kits was, I decided to use my 3D printer 
 to produce my own animatronic skull.
 I live in Germany and I was unable to obtain the Lindberg skull in Europe, for which many animatronic kits are available.
@@ -34,6 +32,8 @@ below 100 EUR.
 A pretty attractive price for an animatronic 3 axis skull with RGB lighted 2 axis eyes.
 All hole measures of the printable parts have been chosen small so you can drill the holes to the dimension you need.
 This way you can easily convert from metric to imperial measure. For instance: The tube for the eyes servo board to connect to the center eye ball is 6mm or approximately 1/4 inch. You will have to drill the holes in the board and the center eye ball accordingly.
+
+Fuction Test of this project: www.youtube.com/watch?v=REK2ZNp7vrE&feature=youtu.be
 
 Please find all necessary files in the branches.
 You may remix as you see fit. Have fun und viel Glück!
