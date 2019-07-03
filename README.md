@@ -42,4 +42,11 @@ Glück auf!
 
 3D-Gurke
 
+Updates: 03.July 2019 Amended JPG files in schematics
+
+    Added a second step down voltage regulator to the assemby, because some Arduino Nano did not work correctly on a one regulator configuration.
+    Hence, updated Material List
+    Added a capacitor to the power supply line of the LEDs in the eyes as specified by LED manufacturer.
+
+
 
