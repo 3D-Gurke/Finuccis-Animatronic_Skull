@@ -34,6 +34,8 @@ All hole measures of the printable parts have been chosen small so you can drill
 This way you can easily convert from metric to imperial measure. For instance: The tube for the eyes servo board to connect to the center eye ball is 6mm or approximately 1/4 inch. You will have to drill the holes in the board and the center eye ball accordingly.
 
 Fuction Test of this project: www.youtube.com/watch?v=REK2ZNp7vrE&feature=youtu.be
+Syncronization test: https://www.youtube.com/watch?v=_bPRN539xfE
+Complete set up :   https://www.youtube.com/watch?v=9FpQztl9sac
 
 Please find all necessary files in the branches.
 You may remix as you see fit. Have fun und viel Glück!
