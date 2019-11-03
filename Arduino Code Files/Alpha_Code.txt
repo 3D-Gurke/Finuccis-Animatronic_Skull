@@ -1,0 +1,648 @@
+//  Servo Limits for ALPHA SKULL  Chior LH
+ // NOD  MAX UP 60   MID 90  MAX DOWN 120  
+ // SHAKE  MAX STBD 30   MID 100  MAX PORT 170
+// TILT  MAX STBD 140   MID 95  MAX PORT 50
+// JAW  MAX OPEN 95   MID 70  MAX CLOSED 47    
+// Eye X  MAX STBD 40   MID 90  MAX PORT 140
+// Eye Y  MAX UP 175   MID 140  MAX Down 80
+//   https://forum.arduino.cc/index.php?topic=503368.0
+
+// VERSION 1.01   RESET functon added
+
+#include <VarSpeedServo.h>
+#include <Adafruit_NeoPixel.h>
+
+// Servo 
+VarSpeedServo servo1;   // NOD
+VarSpeedServo servo2;   // SHAKE
+VarSpeedServo servo3;   // TILT
+VarSpeedServo servo4;   // Jaw
+VarSpeedServo servo5;   // Eye X
+VarSpeedServo servo6;   // Eye Y
+
+const int servoPin1 = 3;
+const int servoPin2 = 5;
+const int servoPin3 = 6;
+const int servoPin4 = 9;
+const int servoPin5 = 10;
+const int servoPin6 = 11;
+const int resetPin = 7;
+const int startpin = 12;
+unsigned long runtime;
+unsigned long offsetMillis;
+int EI;  // eyes Intensity (brightness)
+
+// NeoPixel
+#define PIN  2
+#define NUMPIXELS 2
+Adafruit_NeoPixel eyes = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() 
+{
+
+EI=128; // Set Eye brightness 0-256
+  // Pin Mode Selection
+pinMode(startpin, INPUT_PULLUP);
+pinMode (resetPin, INPUT_PULLUP);
+
+// LED Initialising
+eyes.begin(); 
+// Preset eyes to off
+eyes.setPixelColor(0, eyes.Color(0,0,0)); // Eyes off
+eyes.setPixelColor(1, eyes.Color(0,0,0)); // Eyes off
+eyes.show(); // This sends the updated pixel color to the hardware.
+
+servo1.attach(servoPin1);
+servo1.write(120,10,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120  
+// all servos straight
+servo2.attach(servoPin2);
+servo2.write(100,40,false); // SHAKE  MAX STBD 30   MID 100  MAX PORT 170
+servo3.attach(servoPin3);
+servo3.write(100,40,false); // TILT  MAX STBD 140   MID 95  MAX PORT 50
+servo4.attach(servoPin4);
+servo4.write(47,40,false); // JAW  MAX OPEN 95   MID 70  MAX CLOSED 47 
+servo5.attach(servoPin5);
+servo5.write(75,40,false); // Eye X  MAX STBD 40   MID 90  MAX PORT 140
+servo6.attach(servoPin6);
+servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80
+delay(200);
+
+delay(1400);
+delay(400);
+// Wait for start signal
+while (digitalRead(startpin) == HIGH) {};
+
+// Define Offset millis
+offsetMillis = millis();
+}
+  void(* resetFunc) (void) = 0;//declare reset function at address 0
+void loop() 
+{
+  if (digitalRead(resetPin) == HIGH) {}  // 
+  if (digitalRead(resetPin) == LOW) {setup();}   // Reset triggered
+  
+runtime = millis();
+
+
+// ZOOM IN
+if ((runtime-offsetMillis) >= 4000 && (runtime-offsetMillis) <=4005)   // Augen Zoom Blue                    //                                                      50
+ { 
+   for(int i = 0; (i < EI) && ((runtime-offsetMillis) >= 9); i++)
+   {
+    eyes.setPixelColor(0, eyes.Color(i,0,i)); // Fade in Magenta
+    eyes.setPixelColor(1, eyes.Color(i,0,i)); // Fade in Magenta
+    eyes.show(); // This sends the updated pixel color to the hardware.
+    delay(25); // Delay for a period of time (in milliseconds).
+        }
+        }   
+       
+if ((runtime-offsetMillis) >= 11000 && (runtime-offsetMillis) <= 11005 )  { 
+    servo1.write(85,5,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120 
+    servo6.write(140,8,false);  // (Winkel, Geschwindigkeit)  // Eye Y  MAX UP 175   MID 140  MAX Down 80  
+    }                                                                                             
+
+        
+//  ***********************************************************************************************************************************************
+
+
+if ((runtime-offsetMillis) >= 12521 && (runtime-offsetMillis)<=12523)  {}             //Beat 1
+if ((runtime-offsetMillis) >= 13041 && (runtime-offsetMillis)<=13043)  {}             // Beat 2
+if ((runtime-offsetMillis) >= 13562 && (runtime-offsetMillis)<=13564)  {}             // Beat 3
+if ((runtime-offsetMillis) >= 14082 && (runtime-offsetMillis)<=14084)  {}             // Beat 4
+if ((runtime-offsetMillis) >= 14603 && (runtime-offsetMillis)<=14605)  {}             // Beat 5
+if ((runtime-offsetMillis) >= 15124 && (runtime-offsetMillis)<=15126)  {}             // Beat 6
+if ((runtime-offsetMillis) >= 15644 && (runtime-offsetMillis)<=15646)  {}             // Beat 7
+if ((runtime-offsetMillis) >= 16165 && (runtime-offsetMillis)<=16167)  {}             // Beat 8
+if ((runtime-offsetMillis) >= 16685 && (runtime-offsetMillis)<=16687)  {}             // Beat 9
+if ((runtime-offsetMillis) >= 17206 && (runtime-offsetMillis)<=17208)  {}             // Beat 10
+if ((runtime-offsetMillis) >= 17727 && (runtime-offsetMillis)<=17729)  {}             // Beat 11
+if ((runtime-offsetMillis) >= 18247 && (runtime-offsetMillis)<=18249)  {}             // Beat 12
+if ((runtime-offsetMillis) >= 18768 && (runtime-offsetMillis)<=18770)  {servo5.write(140,100,false);}             // Beat 13
+if ((runtime-offsetMillis) >= 19289 && (runtime-offsetMillis)<=19291)  {servo5.write(90,100,false);}             // Beat 14
+if ((runtime-offsetMillis) >= 19809 && (runtime-offsetMillis)<=19811)  {}             // Beat 15
+if ((runtime-offsetMillis) >= 20330 && (runtime-offsetMillis)<=20332)  {}             // Beat 16
+if ((runtime-offsetMillis) >= 20850 && (runtime-offsetMillis)<=20852)  {}             // Beat 17
+if ((runtime-offsetMillis) >= 21371 && (runtime-offsetMillis)<=21373)  {}             // Beat 18
+if ((runtime-offsetMillis) >= 21892 && (runtime-offsetMillis)<=21894)  {}             // Beat 19
+if ((runtime-offsetMillis) >= 22412 && (runtime-offsetMillis)<=22414)  {}             // Beat 20
+if ((runtime-offsetMillis) >= 22933 && (runtime-offsetMillis)<=22935)  {}             // Beat 21
+if ((runtime-offsetMillis) >= 23453 && (runtime-offsetMillis)<=23455)  {}             // Beat 22
+if ((runtime-offsetMillis) >= 23974 && (runtime-offsetMillis)<=23976)  {}             // Beat 23
+if ((runtime-offsetMillis) >= 24495 && (runtime-offsetMillis)<=24497)  {}             // Beat 24
+if ((runtime-offsetMillis) >= 25015 && (runtime-offsetMillis)<=25017)  {}             // Beat 25
+if ((runtime-offsetMillis) >= 25536 && (runtime-offsetMillis)<=25538)  {}             // Beat 26
+if ((runtime-offsetMillis) >= 26056 && (runtime-offsetMillis)<=26058)  {servo5.write(140,100,false);}             // Beat 27
+if ((runtime-offsetMillis) >= 26577 && (runtime-offsetMillis)<=26579)  {servo5.write(90,100,false);}             // Beat 28
+if ((runtime-offsetMillis) >= 27098 && (runtime-offsetMillis)<=27100)  {}             // Beat 29
+if ((runtime-offsetMillis) >= 27618 && (runtime-offsetMillis)<=27620)  {}             // Beat 30
+if ((runtime-offsetMillis) >= 28139 && (runtime-offsetMillis)<=28141)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   // !Ghostbusters!
+if ((runtime-offsetMillis) >= 28389 && (runtime-offsetMillis)<=28391)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 28539 && (runtime-offsetMillis)<=28541)  {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //    1    ok
+if ((runtime-offsetMillis) >= 28689 && (runtime-offsetMillis)<=28691)  {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 28839 && (runtime-offsetMillis)<=28841)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 28989 && (runtime-offsetMillis)<=28991)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 30221 && (runtime-offsetMillis)<=30223)  {servo5.write(140,20,false);servo6.write(120,40,false);}             // Beat 35     // Eye X  MAX STBD 40   MID 90  MAX PORT 140
+if ((runtime-offsetMillis) >= 30742 && (runtime-offsetMillis)<=30744)  {}             // Beat 36       // Eye Y  MAX UP 175   MID 140  MAX Down 80
+if ((runtime-offsetMillis) >= 31262 && (runtime-offsetMillis)<=31264)  {}             // Beat 37
+if ((runtime-offsetMillis) >= 31783 && (runtime-offsetMillis)<=31785)  {servo2.write(160,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170
+if ((runtime-offsetMillis) >= 32304 && (runtime-offsetMillis)<=32306)  {}             // Beat 39
+if ((runtime-offsetMillis) >= 32824 && (runtime-offsetMillis)<=32826)  {}             // Beat 40
+if ((runtime-offsetMillis) >= 33345 && (runtime-offsetMillis)<=33347)  {}             // Beat 41
+if ((runtime-offsetMillis) >= 33866 && (runtime-offsetMillis)<=33868)  {}             // Beat 42
+if ((runtime-offsetMillis) >= 34386 && (runtime-offsetMillis)<=34388)  {}             // Beat 43
+if ((runtime-offsetMillis) >= 35948 && (runtime-offsetMillis)<=35950)  {}             // Beat 46
+if ((runtime-offsetMillis) >= 36469 && (runtime-offsetMillis)<=36471)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 36719 && (runtime-offsetMillis)<=36721)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 36869 && (runtime-offsetMillis)<=36871)  {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 37019 && (runtime-offsetMillis)<=37021)  {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //  2   ok
+if ((runtime-offsetMillis) >= 37169 && (runtime-offsetMillis)<=37171)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 37319 && (runtime-offsetMillis)<=37321)  {servo4.write(47,80,false);servo5.write(70,20,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 37510 && (runtime-offsetMillis)<=37512)  {}             // Beat 49
+if ((runtime-offsetMillis) >= 38030 && (runtime-offsetMillis)<=38032)  {servo6.write(140,20,false);}             // Beat 50        servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80
+if ((runtime-offsetMillis) >= 38551 && (runtime-offsetMillis)<=38553)  {servo3.write(105,20,false);servo6.write(130,20,false);}             // Beat 51          servo3.write(95,40,false); // TILT  MAX STBD 140   MID 95  MAX PORT 50
+if ((runtime-offsetMillis) >= 39072 && (runtime-offsetMillis)<=39074)  {servo5.write(40,20,false);servo2.write(60,25,false);servo1.write(70,50,false); }             // Beat 52
+if ((runtime-offsetMillis) >= 39592 && (runtime-offsetMillis)<=39594)  {servo5.write(90,20,false);}             // Beat 53
+if ((runtime-offsetMillis) >= 40113 && (runtime-offsetMillis)<=40115)  {servo1.write(95,30,false);servo6.write(80,90,false); }             // Beat 54
+if ((runtime-offsetMillis) >= 40633 && (runtime-offsetMillis)<=40635)  {servo6.write(130,90,false);}             // Beat 55
+if ((runtime-offsetMillis) >= 41154 && (runtime-offsetMillis)<=41156)  {{servo5.write(40,40,false);}}             // Beat 56
+if ((runtime-offsetMillis) >= 41675 && (runtime-offsetMillis)<=41677)  {{servo5.write(140,40,false);}}             // Beat 57
+if ((runtime-offsetMillis) >= 42195 && (runtime-offsetMillis)<=42197)  {servo5.write(90,20,false);}              // Beat 58   // Eye X  MAX STBD 40   MID 90  MAX PORT 140
+if ((runtime-offsetMillis) >= 42716 && (runtime-offsetMillis)<=42718)  {servo1.write(100,15,false);}             // Beat 59          servo1.write(120,10,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120  
+if ((runtime-offsetMillis) >= 43236 && (runtime-offsetMillis)<=43238)  {servo3.write(95,15,false);}             // Beat 60
+if ((runtime-offsetMillis) >= 43757 && (runtime-offsetMillis)<=43759)  {servo2.write(100,25,false);servo1.write(85,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170           // Beat 61
+if ((runtime-offsetMillis) >= 44278 && (runtime-offsetMillis)<=44280)  {}             // Beat 62
+if ((runtime-offsetMillis) >= 44798 && (runtime-offsetMillis)<=44800)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 45048 && (runtime-offsetMillis)<=45050)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 45198 && (runtime-offsetMillis)<=45200)  {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 45348 && (runtime-offsetMillis)<=45350)  {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //   3  ok
+if ((runtime-offsetMillis) >= 45498 && (runtime-offsetMillis)<=45500)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 45648 && (runtime-offsetMillis)<=45650)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 45839 && (runtime-offsetMillis)<=45841)  {}             // Beat 65
+if ((runtime-offsetMillis) >= 46360 && (runtime-offsetMillis)<=46362)  {servo1.write(90,10,false);}              // Beat 66    servo1.write(120,10,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120 
+if ((runtime-offsetMillis) >= 46881 && (runtime-offsetMillis)<=46883)  {servo6.write(80,20,false);}             //        servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80          // Beat 67
+if ((runtime-offsetMillis) >= 47401 && (runtime-offsetMillis)<=47403)  {servo5.write(120,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140            // Beat 68
+if ((runtime-offsetMillis) >= 47922 && (runtime-offsetMillis)<=47924)  {servo6.write(140,20,false);}             //        servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80                   // Beat 69
+if ((runtime-offsetMillis) >= 48443 && (runtime-offsetMillis)<=48445)  {}             // Beat 70
+if ((runtime-offsetMillis) >= 48963 && (runtime-offsetMillis)<=48965)  {servo2.write(160,25,false);servo6.write(80,20,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 71
+if ((runtime-offsetMillis) >= 49484 && (runtime-offsetMillis)<=49486)  {servo3.write(105,15,false);}               //// TILT  MAX STBD 140   MID 95  MAX PORT 50   Beat 72
+if ((runtime-offsetMillis) >= 50004 && (runtime-offsetMillis)<=50006)  {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                   // Beat 73
+if ((runtime-offsetMillis) >= 50525 && (runtime-offsetMillis)<=50527)  {}             // Beat 74
+if ((runtime-offsetMillis) >= 51046 && (runtime-offsetMillis)<=51048)  {servo2.write(100,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                    // Beat 75
+if ((runtime-offsetMillis) >= 51566 && (runtime-offsetMillis)<=51568)  {servo3.write(95,15,false);}               // Beat 76
+if ((runtime-offsetMillis) >= 52087 && (runtime-offsetMillis)<=52089)  {servo6.write(175,20,false);}             //       servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80              // Beat 77
+if ((runtime-offsetMillis) >= 52607 && (runtime-offsetMillis)<=52609)  {}             // Beat 78
+if ((runtime-offsetMillis) >= 53128 && (runtime-offsetMillis)<=53130)  {servo5.write(40,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                   // Beat 79
+if ((runtime-offsetMillis) >= 53649 && (runtime-offsetMillis)<=53651)  {servo1.write(80,10,false);}              // Beat 66    servo1.write(120,10,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 80
+if ((runtime-offsetMillis) >= 54169 && (runtime-offsetMillis)<=54171)  {servo2.write(80,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                   // Beat 81
+if ((runtime-offsetMillis) >= 54690 && (runtime-offsetMillis)<=54692)  {servo6.write(140,20,false);}            //      servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80             // Beat 82
+if ((runtime-offsetMillis) >= 55210 && (runtime-offsetMillis)<=55212)  {}             // Beat 83
+if ((runtime-offsetMillis) >= 55731 && (runtime-offsetMillis)<=55733)  {}             // Beat 84
+if ((runtime-offsetMillis) >= 56252 && (runtime-offsetMillis)<=56254)  {servo1.write(95,10,false);}              //     servo1.write(120,10,false); // NOD  MAX UP 60   MID 90  MAX DOWN 120                 // Beat 85
+if ((runtime-offsetMillis) >= 56772 && (runtime-offsetMillis)<=56774)  {servo2.write(110,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                   // Beat 81            // Beat 86
+if ((runtime-offsetMillis) >= 57293 && (runtime-offsetMillis)<=57295)  {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                    // Beat 87
+if ((runtime-offsetMillis) >= 57813 && (runtime-offsetMillis)<=57815)  {servo2.write(80,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 88
+if ((runtime-offsetMillis) >= 58334 && (runtime-offsetMillis)<=58336)  {}             // Beat 89
+if ((runtime-offsetMillis) >= 58855 && (runtime-offsetMillis)<=58857)  {servo6.write(160,10,false);}            //      servo6.write(80,40,false); // Eye Y  MAX UP 175   MID 140  MAX Down 80              // Beat 90
+if ((runtime-offsetMillis) >= 59375 && (runtime-offsetMillis)<=59377)  {servo3.write(80,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }             // Beat 91
+if ((runtime-offsetMillis) >= 59896 && (runtime-offsetMillis)<=59898)  {servo1.write(105,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 92
+if ((runtime-offsetMillis) >= 60416 && (runtime-offsetMillis)<=60418)  {}             // Beat 93
+if ((runtime-offsetMillis) >= 60937 && (runtime-offsetMillis)<=60939)  {servo5.write(75,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                   // Beat 94
+if ((runtime-offsetMillis) >= 61458 && (runtime-offsetMillis)<=61460)  {servo1.write(90,10,false);servo2.write(170,150,false);}                 //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                     // Beat 95
+if ((runtime-offsetMillis) >= 61978 && (runtime-offsetMillis)<=61980)  {servo3.write(95,15,false);servo6.write(175,10,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 96
+if ((runtime-offsetMillis) >= 62499 && (runtime-offsetMillis)<=62501)  {servo2.write(130,20,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80             // Beat 97
+if ((runtime-offsetMillis) >= 63020 && (runtime-offsetMillis)<=63022)  {}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 98
+if ((runtime-offsetMillis) >= 63540 && (runtime-offsetMillis)<=63542)  {servo6.write(140,10,false);}             // Beat 99
+if ((runtime-offsetMillis) >= 64061 && (runtime-offsetMillis)<=64063)  {servo5.write(90,20,false);}             // Beat 100
+if ((runtime-offsetMillis) >= 64581 && (runtime-offsetMillis)<=64583)  {servo2.write(100,40,false);}             // Beat 101
+if ((runtime-offsetMillis) >= 65102 && (runtime-offsetMillis)<=65104)  {servo1.write(110,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                           // Beat 102
+if ((runtime-offsetMillis) >= 65623 && (runtime-offsetMillis)<=65625)  {servo3.write(110,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 103
+if ((runtime-offsetMillis) >= 66143 && (runtime-offsetMillis)<=66145)  {servo1.write(100,10,false);servo5.write(140,20,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 104
+if ((runtime-offsetMillis) >= 66664 && (runtime-offsetMillis)<=66666)  {servo3.write(95,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }               // Beat 105
+if ((runtime-offsetMillis) >= 67184 && (runtime-offsetMillis)<=67186)  {}             // Beat 106
+if ((runtime-offsetMillis) >= 67705 && (runtime-offsetMillis)<=67707)  {}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170               // Beat 107
+if ((runtime-offsetMillis) >= 68226 && (runtime-offsetMillis)<=68228)  {servo2.write(100,40,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120               // Beat 108
+if ((runtime-offsetMillis) >= 68746 && (runtime-offsetMillis)<=68748)  {}             // Beat 109
+if ((runtime-offsetMillis) >= 69267 && (runtime-offsetMillis)<=69269)  {servo2.write(170,40,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                   // Beat 110
+if ((runtime-offsetMillis) >= 69787 && (runtime-offsetMillis)<=69789)  {servo2.write(110,40,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                      // Beat 111
+if ((runtime-offsetMillis) >= 70308 && (runtime-offsetMillis)<=70310)  {servo2.write(170,40,false);}             // Beat 112
+if ((runtime-offsetMillis) >= 70829 && (runtime-offsetMillis)<=70831)  {servo2.write(110,40,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                    // Beat 113
+if ((runtime-offsetMillis) >= 71349 && (runtime-offsetMillis)<=71351)  {servo2.write(170,40,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                   // Beat 114
+if ((runtime-offsetMillis) >= 71870 && (runtime-offsetMillis)<=71872)  {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140             // Beat 115
+if ((runtime-offsetMillis) >= 72390 && (runtime-offsetMillis)<=72392)  {servo2.write(100,10,false);servo5.write(40,20,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                      // Beat 116
+if ((runtime-offsetMillis) >= 72911 && (runtime-offsetMillis)<=72913)  {servo3.write(120,12,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }                  // Beat 117
+if ((runtime-offsetMillis) >= 73432 && (runtime-offsetMillis)<=73434)  {servo3.write(70,12,false);servo5.write(90,20,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 118
+if ((runtime-offsetMillis) >= 73952 && (runtime-offsetMillis)<=73954)  {servo3.write(120,12,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }               // Beat 119
+if ((runtime-offsetMillis) >= 74473 && (runtime-offsetMillis)<=74475)  {servo3.write(70,12,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 120
+if ((runtime-offsetMillis) >= 74993 && (runtime-offsetMillis)<=74995)  {servo3.write(95,12,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 121
+if ((runtime-offsetMillis) >= 75514 && (runtime-offsetMillis)<=75516)  {}                                         // Beat 122
+if ((runtime-offsetMillis) >= 76035 && (runtime-offsetMillis)<=76037)  {servo1.write(95,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120               // Beat 123
+if ((runtime-offsetMillis) >= 76555 && (runtime-offsetMillis)<=76557)  {servo2.write(100,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                      // Beat 124 
+if ((runtime-offsetMillis) >= 77076 && (runtime-offsetMillis)<=77078)  {servo5.write(50,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                                        // Beat 125
+if ((runtime-offsetMillis) >= 77597 && (runtime-offsetMillis)<=77599)  {servo6.write(140,10,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80              // Beat 126
+if ((runtime-offsetMillis) >= 79158 && (runtime-offsetMillis)<=79160)  {servo2.write(70,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170              // Beat 129
+if ((runtime-offsetMillis) >= 79679 && (runtime-offsetMillis)<=79681)  {servo1.write(100,10,false);servo5.write(140,100,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                // Beat 130
+if ((runtime-offsetMillis) >= 80200 && (runtime-offsetMillis)<=80202)  {servo1.write(85,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                // Beat 131
+if ((runtime-offsetMillis) >= 80720 && (runtime-offsetMillis)<=80722)  {servo2.write(120,10,false);servo5.write(120,40,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170   // Eye X  MAX STBD 40   MID 90  MAX PORT 140           // Beat 132
+if ((runtime-offsetMillis) >= 81241 && (runtime-offsetMillis)<=81243)  {}             // Beat 133
+if ((runtime-offsetMillis) >= 81761 && (runtime-offsetMillis)<=81763)  {servo1.write(95,10,false);servo5.write(90,40,false);}              //    // NOD  MAX UP 60   MID 90  MAX DOWN 120                // Beat 134
+if ((runtime-offsetMillis) >= 82282 && (runtime-offsetMillis)<=82284)  {servo2.write(110,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170              // Beat 135
+if ((runtime-offsetMillis) >= 82803 && (runtime-offsetMillis)<=82805)  {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140            // Beat 136
+if ((runtime-offsetMillis) >= 83323 && (runtime-offsetMillis)<=83325)  {servo2.write(80,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170               // Beat 137
+if ((runtime-offsetMillis) >= 83844 && (runtime-offsetMillis)<=83846)  {}             // Beat 138
+if ((runtime-offsetMillis) >= 84364 && (runtime-offsetMillis)<=84366)  {servo5.write(90,170,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80             // Beat 139 
+if ((runtime-offsetMillis) >= 84885 && (runtime-offsetMillis)<=84887)  {servo2.write(100,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170               // Beat 140
+if ((runtime-offsetMillis) >= 85406 && (runtime-offsetMillis)<=85408)  {}             // Beat 141
+if ((runtime-offsetMillis) >= 85926 && (runtime-offsetMillis)<=85928)  {}             // Beat 142
+if ((runtime-offsetMillis) >= 86447 && (runtime-offsetMillis)<=86449)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 86697 && (runtime-offsetMillis)<=86699)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 86847 && (runtime-offsetMillis)<=86849)  {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //   5   ok
+if ((runtime-offsetMillis) >= 86997 && (runtime-offsetMillis)<=86999)  {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 87147 && (runtime-offsetMillis)<=87149)  {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 87297 && (runtime-offsetMillis)<=87299)  {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >= 87488 && (runtime-offsetMillis)<=87490)  {servo6.write(140,10,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80               // Beat 145
+if ((runtime-offsetMillis) >= 88009 && (runtime-offsetMillis)<=88011)  {}             // Beat 146
+if ((runtime-offsetMillis) >= 88529 && (runtime-offsetMillis)<=88531)  {servo2.write(110,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                  // Beat 147
+if ((runtime-offsetMillis) >= 89050 && (runtime-offsetMillis)<=89052)  {}             // Beat 148
+if ((runtime-offsetMillis) >= 89570 && (runtime-offsetMillis)<=89572)  {servo5.write(140,100,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 149
+if ((runtime-offsetMillis) >= 90091 && (runtime-offsetMillis)<=90093)  {}             // Beat 150
+if ((runtime-offsetMillis) >= 90612 && (runtime-offsetMillis)<=90614)  {servo2.write(80,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 151
+if ((runtime-offsetMillis) >= 91132 && (runtime-offsetMillis)<=91134)  {}             // Beat 152
+if ((runtime-offsetMillis) >= 91653 && (runtime-offsetMillis)<=91655)  {servo6.write(160,10,false);}            //   // Eye Y  MAX UP 175   MID 140  MAX Down 80               // Beat 153
+if ((runtime-offsetMillis) >= 92174 && (runtime-offsetMillis)<=92176)  {servo3.write(80,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }             // Beat 154
+if ((runtime-offsetMillis) >= 92694 && (runtime-offsetMillis)<=92696)  {}             // Beat 155
+if ((runtime-offsetMillis) >= 93215 && (runtime-offsetMillis)<=93217)  {servo1.write(105,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 156
+if ((runtime-offsetMillis) >= 93735 && (runtime-offsetMillis)<=93737)  {}             // Beat 157
+if ((runtime-offsetMillis) >= 94256 && (runtime-offsetMillis)<=94258)  {servo5.write(75,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 158
+if ((runtime-offsetMillis) >= 94777 && (runtime-offsetMillis)<=94779)  {servo1.write(90,10,false);servo2.write(100,25,false);}              // Beat 159
+if ((runtime-offsetMillis) >= 95297 && (runtime-offsetMillis)<=95299)  {}             // Beat 160
+if ((runtime-offsetMillis) >= 95818 && (runtime-offsetMillis)<=95820)  {servo3.write(95,15,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }               // Beat 161
+if ((runtime-offsetMillis) >= 96338 && (runtime-offsetMillis)<=96340)  {servo6.write(140,10,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80             // Beat 162
+if ((runtime-offsetMillis) >= 96859 && (runtime-offsetMillis)<=96861)  {}             // Beat 163
+if ((runtime-offsetMillis) >= 97380 && (runtime-offsetMillis)<=97382)  {servo5.write(120,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 164
+if ((runtime-offsetMillis) >= 97900 && (runtime-offsetMillis)<=97902)  {}             // Beat 165
+if ((runtime-offsetMillis) >= 98421 && (runtime-offsetMillis)<=98423)  {servo1.write(110,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120             // Beat 166
+if ((runtime-offsetMillis) >= 98941 && (runtime-offsetMillis)<=98943)  {}             // Beat 167
+if ((runtime-offsetMillis) >= 99462 && (runtime-offsetMillis)<=99464)  {servo3.write(110,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 168
+if ((runtime-offsetMillis) >= 99983 && (runtime-offsetMillis)<=99985)  {servo2.write(30,20,false);servo1.write(100,10,false);}             // Beat 169
+if ((runtime-offsetMillis) >=100503 && (runtime-offsetMillis)<=100505) {servo3.write(95,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }                // Beat 170
+if ((runtime-offsetMillis) >=101024 && (runtime-offsetMillis)<=101026) {servo5.write(80,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140             // Beat 171
+if ((runtime-offsetMillis) >=101544 && (runtime-offsetMillis)<=101546) {servo2.write(130,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 172
+if ((runtime-offsetMillis) >=102065 && (runtime-offsetMillis)<=102067) {}             // Beat 173
+if ((runtime-offsetMillis) >=102586 && (runtime-offsetMillis)<=102588) {servo1.write(75,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 174
+if ((runtime-offsetMillis) >=103106 && (runtime-offsetMillis)<=103108) {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140             // Beat 175
+if ((runtime-offsetMillis) >=103627 && (runtime-offsetMillis)<=103629) {servo2.write(80,15,false);servo1.write(60,10,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170              // Beat 176
+if ((runtime-offsetMillis) >=104148 && (runtime-offsetMillis)<=104150) {}             // Beat 177
+if ((runtime-offsetMillis) >=104668 && (runtime-offsetMillis)<=104670) {servo1.write(90,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120             // Beat 178
+if ((runtime-offsetMillis) >=105189 && (runtime-offsetMillis)<=105191) {}             // Beat 179
+if ((runtime-offsetMillis) >=105709 && (runtime-offsetMillis)<=105711) {servo1.write(110,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 180
+if ((runtime-offsetMillis) >=106230 && (runtime-offsetMillis)<=106232) {servo5.write(120,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 181
+if ((runtime-offsetMillis) >=106751 && (runtime-offsetMillis)<=106753) {servo2.write(120,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170               // Beat 182
+if ((runtime-offsetMillis) >=107271 && (runtime-offsetMillis)<=107273) {}             // Beat 183
+if ((runtime-offsetMillis) >=107792 && (runtime-offsetMillis)<=107794) {servo5.write(140,100,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 184
+if ((runtime-offsetMillis) >=108312 && (runtime-offsetMillis)<=108314) {}             // Beat 185
+if ((runtime-offsetMillis) >=108833 && (runtime-offsetMillis)<=108835) {servo6.write(140,10,false);}            //      // Eye Y  MAX UP 175   MID 140  MAX Down 80                 // Beat 186
+if ((runtime-offsetMillis) >=109354 && (runtime-offsetMillis)<=109356) {}             // Beat 187 
+if ((runtime-offsetMillis) >=109874 && (runtime-offsetMillis)<=109876) {servo1.write(95,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                  // Beat 188
+if ((runtime-offsetMillis) >=110395 && (runtime-offsetMillis)<=110397) {servo2.write(100,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170              // Beat 189
+if ((runtime-offsetMillis) >=110915 && (runtime-offsetMillis)<=110917) {}             // Beat 190
+if ((runtime-offsetMillis) >=111436 && (runtime-offsetMillis)<=111438) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=111686 && (runtime-offsetMillis)<=111688) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=111836 && (runtime-offsetMillis)<=111838) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40  //  6  ok   
+if ((runtime-offsetMillis) >=111986 && (runtime-offsetMillis)<=111988) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=112136 && (runtime-offsetMillis)<=112138) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=112286 && (runtime-offsetMillis)<=112288) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=112477 && (runtime-offsetMillis)<=112479) {servo5.write(40,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140               // Beat 193
+if ((runtime-offsetMillis) >=112998 && (runtime-offsetMillis)<=113000) {servo2.write(40,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                        // Beat 194
+if ((runtime-offsetMillis) >=113518 && (runtime-offsetMillis)<=113520) {}             // Beat 195
+if ((runtime-offsetMillis) >=114039 && (runtime-offsetMillis)<=114041) {servo5.write(120,30,false);servo1.write(80,10,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140               // Beat 196
+if ((runtime-offsetMillis) >=114560 && (runtime-offsetMillis)<=114562) {servo2.write(130,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 197
+if ((runtime-offsetMillis) >=115080 && (runtime-offsetMillis)<=115082) {servo5.write(90,20,false);}             // Beat 198
+if ((runtime-offsetMillis) >=115601 && (runtime-offsetMillis)<=115603) {servo1.write(95,10,false);servo5.write(140,100,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120             // Beat 199
+if ((runtime-offsetMillis) >=116121 && (runtime-offsetMillis)<=116123) {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140               // Beat 200
+if ((runtime-offsetMillis) >=116642 && (runtime-offsetMillis)<=116644) {servo1.write(75,10,false);}              // Beat 201
+if ((runtime-offsetMillis) >=117163 && (runtime-offsetMillis)<=117165) {}             // Beat 202   
+if ((runtime-offsetMillis) >=117683 && (runtime-offsetMillis)<=117685) {servo2.write(50,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 203
+if ((runtime-offsetMillis) >=118204 && (runtime-offsetMillis)<=118206) {}             // Beat 204
+if ((runtime-offsetMillis) >=118725 && (runtime-offsetMillis)<=118727) {servo1.write(95,10,false);}              // / NOD  MAX UP 60   MID 90  MAX DOWN 120     Beat 205
+if ((runtime-offsetMillis) >=119245 && (runtime-offsetMillis)<=119247) {servo2.write(100,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 206
+if ((runtime-offsetMillis) >=119766 && (runtime-offsetMillis)<=119768) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=120016 && (runtime-offsetMillis)<=120018) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=120166 && (runtime-offsetMillis)<=120168) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=120316 && (runtime-offsetMillis)<=120318) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //    7  ok
+if ((runtime-offsetMillis) >=120466 && (runtime-offsetMillis)<=120468) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=120616 && (runtime-offsetMillis)<=120618) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=120807 && (runtime-offsetMillis)<=120809) {servo6.write(80,10,false);}                                             // Eye Y  MAX UP 175   MID 140  MAX Down 80                // Beat 209
+if ((runtime-offsetMillis) >=121328 && (runtime-offsetMillis)<=121330) {servo1.write(120,10,false);servo2.write(115,15,false);}                 // SHAKE  MAX STBD 30   MID 100  MAX PORT 170  }              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120              // Beat 210
+if ((runtime-offsetMillis) >=121848 && (runtime-offsetMillis)<=121850) {servo6.write(160,10,false);}            //                              // Eye Y  MAX UP 175   MID 140  MAX Down 80                // Beat 211
+if ((runtime-offsetMillis) >=122369 && (runtime-offsetMillis)<=122371) {servo1.write(100,10,false);servo2.write(100,15,false);servo6.write(140,10,false);}   // NOD  MAX UP 60   MID 90  MAX DOWN 120               // Beat 212
+if ((runtime-offsetMillis) >=122889 && (runtime-offsetMillis)<=122891) {servo3.write(100,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }                           // Beat 213
+if ((runtime-offsetMillis) >=123410 && (runtime-offsetMillis)<=123412) {servo5.write(40,20,false);}              //    Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 214
+if ((runtime-offsetMillis) >=123931 && (runtime-offsetMillis)<=123933) {servo2.write(50,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170        Beat 215
+if ((runtime-offsetMillis) >=124451 && (runtime-offsetMillis)<=124453) {servo3.write(95,15,false);}        // TILT  MAX STBD 140   MID 95  MAX PORT 50 }               // Beat 216
+if ((runtime-offsetMillis) >=124972 && (runtime-offsetMillis)<=124974) {servo5.write(90,20,false);}            // Beat 217
+if ((runtime-offsetMillis) >=125492 && (runtime-offsetMillis)<=125494) {servo5.write(120,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140               // Beat 218
+if ((runtime-offsetMillis) >=126013 && (runtime-offsetMillis)<=126015) {servo1.write(110,10,false);}              // Beat 66    // NOD  MAX UP 60   MID 90  MAX DOWN 120               // Beat 219
+if ((runtime-offsetMillis) >=126534 && (runtime-offsetMillis)<=126536) {servo2.write(120,15,false);servo5.write(110,10,false);servo1.write(105,10,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170               // Beat 220
+if ((runtime-offsetMillis) >=127054 && (runtime-offsetMillis)<=127056) {servo2.write(100,15,false);servo5.write(60,10,false);}               // Beat 221
+if ((runtime-offsetMillis) >=127575 && (runtime-offsetMillis)<=127577) {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140              // Beat 222
+if ((runtime-offsetMillis) >=128095 && (runtime-offsetMillis)<=128097) {}             // Beat 223
+if ((runtime-offsetMillis) >=128616 && (runtime-offsetMillis)<=128618) {servo5.write(140,100,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140                // Beat 224
+if ((runtime-offsetMillis) >=129137 && (runtime-offsetMillis)<=129139) {servo2.write(170,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 225
+if ((runtime-offsetMillis) >=129657 && (runtime-offsetMillis)<=129659) {servo5.write(90,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140             // Beat 226
+if ((runtime-offsetMillis) >=130178 && (runtime-offsetMillis)<=130180) {servo2.write(100,10,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 227
+if ((runtime-offsetMillis) >=130698 && (runtime-offsetMillis)<=130700) {servo3.write(105,12,false);}              // TILT  MAX STBD 140   MID 95  MAX PORT 50 }              // Beat 228
+if ((runtime-offsetMillis) >=131219 && (runtime-offsetMillis)<=131221) {servo5.write(140,100,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140               // Beat 229
+if ((runtime-offsetMillis) >=131740 && (runtime-offsetMillis)<=131742) {servo2.write(170,10,false);servo3.write(95,12,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 230
+if ((runtime-offsetMillis) >=132260 && (runtime-offsetMillis)<=132262) {servo5.write(90,20,false);servo6.write(90,10,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140         // Beat 231
+if ((runtime-offsetMillis) >=132781 && (runtime-offsetMillis)<=132783) {servo2.write(40,15,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170            // Beat 232
+if ((runtime-offsetMillis) >=133302 && (runtime-offsetMillis)<=133304) {servo1.write(60,10,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120             // Beat 233
+if ((runtime-offsetMillis) >=133822 && (runtime-offsetMillis)<=133824) {servo5.write(140,20,false);}              //    // Eye X  MAX STBD 40   MID 90  MAX PORT 140            // Beat 234
+if ((runtime-offsetMillis) >=134343 && (runtime-offsetMillis)<=134345) {servo2.write(170,10,false);servo1.write(95,10,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170             // Beat 235
+if ((runtime-offsetMillis) >=134863 && (runtime-offsetMillis)<=134865) {servo5.write(90,20,false);}              // Beat 236        
+if ((runtime-offsetMillis) >=135384 && (runtime-offsetMillis)<=135386) {servo1.write(95,10,false);servo2.write(100,25,false);}              //  // NOD  MAX UP 60   MID 90  MAX DOWN 120                      // Beat 237   
+if ((runtime-offsetMillis) >=135905 && (runtime-offsetMillis)<=135907) {servo2.write(100,25,false);}             //  // SHAKE  MAX STBD 30   MID 100  MAX PORT 170                // Beat 238
+if ((runtime-offsetMillis) >=136425 && (runtime-offsetMillis)<=136427) {servo3.write(110,200,false);servo6.write(140,40,false);}             // Beat 239   TILT  MAX STBD 140   MID 95  MAX PORT 50
+if ((runtime-offsetMillis) >=136946 && (runtime-offsetMillis)<=136948) {servo4.write(90,120,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=137196 && (runtime-offsetMillis)<=137198) {servo4.write(47,120,false);servo3.write(80,200,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=137466 && (runtime-offsetMillis)<=137468) {servo4.write(90,120,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=137716 && (runtime-offsetMillis)<=137718) {servo4.write(47,120,false);servo3.write(110,200,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=137987 && (runtime-offsetMillis)<=137989) {servo4.write(90,120,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=138237 && (runtime-offsetMillis)<=138239) {servo4.write(47,120,false);servo3.write(80,200,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=138508 && (runtime-offsetMillis)<=138510) {servo4.write(90,120,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=138758 && (runtime-offsetMillis)<=138760) {servo4.write(47,120,false);servo3.write(95,60,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=139028 && (runtime-offsetMillis)<=139030) {servo2.write(40,10,false);servo5.write(40,20,false);servo1.write(65,10,false);}             // Beat 244
+if ((runtime-offsetMillis) >=139549 && (runtime-offsetMillis)<=139551) {servo5.write(140,20,false);servo2.write(170,15,false);servo1.write(90,10,false);}           // Beat 245
+if ((runtime-offsetMillis) >=140069 && (runtime-offsetMillis)<=140071) {servo6.write(80,20,false);servo1.write(100,15,false);}             // Beat 246
+if ((runtime-offsetMillis) >=140590 && (runtime-offsetMillis)<=140592) {servo6.write(160,20,false);servo1.write(65,15,false);}              // Beat 247
+if ((runtime-offsetMillis) >=141111 && (runtime-offsetMillis)<=141113) {servo6.write(130,20,false);}             // Beat 248
+if ((runtime-offsetMillis) >=141631 && (runtime-offsetMillis)<=141633) {servo5.write(40,20,false);servo2.write(80,10,false);servo1.write(110,20,false);}             // Beat 249
+if ((runtime-offsetMillis) >=142152 && (runtime-offsetMillis)<=142154) {servo2.write(40,10,false);servo1.write(70,15,false);}             // Beat 250
+if ((runtime-offsetMillis) >=142672 && (runtime-offsetMillis)<=142674) {servo5.write(90,20,false);servo6.write(80,20,false);}             // Beat 251   
+if ((runtime-offsetMillis) >=143193 && (runtime-offsetMillis)<=143195) {servo2.write(90,10,false);servo6.write(130,20,false);}             // Beat 252
+if ((runtime-offsetMillis) >=143714 && (runtime-offsetMillis)<=143716) {servo2.write(170,10,false);servo5.write(140,20,false);}             // Beat 253
+if ((runtime-offsetMillis) >=144234 && (runtime-offsetMillis)<=144236) {servo5.write(140,100,false);}             // Beat 254
+if ((runtime-offsetMillis) >=144755 && (runtime-offsetMillis)<=144757) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=145005 && (runtime-offsetMillis)<=145007) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=145155 && (runtime-offsetMillis)<=145157) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //  8    ok
+if ((runtime-offsetMillis) >=145305 && (runtime-offsetMillis)<=145307) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=145455 && (runtime-offsetMillis)<=145457) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=145605 && (runtime-offsetMillis)<=145607) {servo4.write(47,80,false);servo5.write(40,50,false);servo2.write(95,30,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=145796 && (runtime-offsetMillis)<=145798) {servo5.write(45,20,false);servo6.write(80,20,false);}                // Beat 257
+if ((runtime-offsetMillis) >=146317 && (runtime-offsetMillis)<=146319) {servo2.write(30,30,false);servo1.write(120,15,false);}                 // Beat 258     // TILT  MAX STBD 140   MID 95  MAX PORT 50
+if ((runtime-offsetMillis) >=146837 && (runtime-offsetMillis)<=146839) {servo5.write(90,20,false);servo6.write(140,20,false);}                 // Beat 259
+if ((runtime-offsetMillis) >=147358 && (runtime-offsetMillis)<=147360) {servo3.write(110,12,false);}           // Beat 260
+if ((runtime-offsetMillis) >=147879 && (runtime-offsetMillis)<=147881) {servo3.write(80,12,false);}               // Beat 261
+if ((runtime-offsetMillis) >=148399 && (runtime-offsetMillis)<=148401) {servo3.write(95,12,false);}               // Beat 262
+if ((runtime-offsetMillis) >=148920 && (runtime-offsetMillis)<=148922) {}             // Beat 263
+if ((runtime-offsetMillis) >=149440 && (runtime-offsetMillis)<=149442) {servo5.write(140,20,false);servo6.write(120,20,false);}            // Beat 264
+if ((runtime-offsetMillis) >=149961 && (runtime-offsetMillis)<=149963) {servo2.write(120,30,false);servo1.write(95,20,false);}             // Beat 265
+if ((runtime-offsetMillis) >=150482 && (runtime-offsetMillis)<=150484) {servo5.write(90,20,false);servo6.write(140,20,false);}             // Beat 266
+if ((runtime-offsetMillis) >=151002 && (runtime-offsetMillis)<=151004) {servo3.write(110,12,false);}            // Beat 267 
+if ((runtime-offsetMillis) >=151523 && (runtime-offsetMillis)<=151525) {servo3.write(80,12,false);}             // Beat 268
+if ((runtime-offsetMillis) >=152043 && (runtime-offsetMillis)<=152045) {servo3.write(95,12,false);}                  // Beat 269
+if ((runtime-offsetMillis) >=152564 && (runtime-offsetMillis)<=152566) {servo2.write(170,15,false);}             // Beat 270
+if ((runtime-offsetMillis) >=153085 && (runtime-offsetMillis)<=153087) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=153335 && (runtime-offsetMillis)<=153337) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=153485 && (runtime-offsetMillis)<=153487) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   // 9 ok
+if ((runtime-offsetMillis) >=153635 && (runtime-offsetMillis)<=153637) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=153785 && (runtime-offsetMillis)<=153787) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=153935 && (runtime-offsetMillis)<=153937) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=154126 && (runtime-offsetMillis)<=154128) {servo2.write(120,15,false);}             // Beat 273
+if ((runtime-offsetMillis) >=154646 && (runtime-offsetMillis)<=154648) {servo1.write(120,30,false);}           // Beat 274
+if ((runtime-offsetMillis) >=155167 && (runtime-offsetMillis)<=155169) {servo1.write(60,30,false);}             // Beat 275
+if ((runtime-offsetMillis) >=155688 && (runtime-offsetMillis)<=155690) {servo1.write(90,30,false);}             // Beat 276
+if ((runtime-offsetMillis) >=156208 && (runtime-offsetMillis)<=156210) {servo5.write(40,20,false);servo6.write(175,20,false);servo1.write(60,30,false);}                   // Beat 277
+if ((runtime-offsetMillis) >=156729 && (runtime-offsetMillis)<=156731) {servo2.write(30,15,false);servo1.write(90,30,false);}            // Beat 278     30 rechts
+if ((runtime-offsetMillis) >=157249 && (runtime-offsetMillis)<=157251) {servo6.write(140,15,false);}            // Beat 279     140 Mitte
+if ((runtime-offsetMillis) >=157770 && (runtime-offsetMillis)<=157772) {}             // Beat 280
+if ((runtime-offsetMillis) >=158291 && (runtime-offsetMillis)<=158293) {servo6.write(80,15,false);}               // Beat 281  80 down
+if ((runtime-offsetMillis) >=158811 && (runtime-offsetMillis)<=158813) {servo1.write(120,30,false); }             // Beat 282   120 down
+if ((runtime-offsetMillis) >=159332 && (runtime-offsetMillis)<=159334) {servo5.write(140,100,false);servo6.write(140,20,false);}      // 5-140 links  6 140 Mitte       // Beat 283
+if ((runtime-offsetMillis) >=159852 && (runtime-offsetMillis)<=159854) {servo2.write(150,20,false);}               // Beat 284    2-150 links
+if ((runtime-offsetMillis) >=160373 && (runtime-offsetMillis)<=160375) {servo1.write(95,30,false);}              // Beat 285    1-95 neutral
+if ((runtime-offsetMillis) >=160894 && (runtime-offsetMillis)<=160896) {servo5.write(90,20,false);servo6.write(160,20,false);}            // Beat 286
+if ((runtime-offsetMillis) >=161414 && (runtime-offsetMillis)<=161416) {servo1.write(75,30,false);servo5.write(140,100,false);}             // Beat 287
+if ((runtime-offsetMillis) >=161935 && (runtime-offsetMillis)<=161937) {servo5.write(50,20,false);servo6.write(160,20,false);}             // Beat 288
+if ((runtime-offsetMillis) >=162456 && (runtime-offsetMillis)<=162458) {}             // Beat 289
+if ((runtime-offsetMillis) >=162976 && (runtime-offsetMillis)<=162978) {servo1.write(95,30,false);servo2.write(100,20,false);}                // Beat 290
+if ((runtime-offsetMillis) >=163497 && (runtime-offsetMillis)<=163499) {}             // Beat 291
+if ((runtime-offsetMillis) >=164017 && (runtime-offsetMillis)<=164019) {servo5.write(90,20,false);servo6.write(140,20,false);}               // Beat 292
+if ((runtime-offsetMillis) >=164538 && (runtime-offsetMillis)<=164540) {}             // Beat 293
+if ((runtime-offsetMillis) >=165059 && (runtime-offsetMillis)<=165061) {servo2.write(100,20,false);}               // Beat 294
+if ((runtime-offsetMillis) >=165579 && (runtime-offsetMillis)<=165581) {}             // Beat 295
+if ((runtime-offsetMillis) >=166100 && (runtime-offsetMillis)<=166102) {servo3.write(110,12,false);}            // Beat 296
+if ((runtime-offsetMillis) >=166620 && (runtime-offsetMillis)<=166622) {servo3.write(80,12,false);}              // Beat 297
+if ((runtime-offsetMillis) >=167141 && (runtime-offsetMillis)<=167143) {servo3.write(95,12,false);}             // Beat 298   3-95 neutral
+if ((runtime-offsetMillis) >=167662 && (runtime-offsetMillis)<=167664) {servo5.write(140,20,false);}             // Beat 299
+if ((runtime-offsetMillis) >=168182 && (runtime-offsetMillis)<=168184) {servo1.write(110,15,false);servo2.write(170,20,false);}             // Beat 300     1-110   down  2-170 links
+if ((runtime-offsetMillis) >=168703 && (runtime-offsetMillis)<=168705) {}             // Beat 301
+if ((runtime-offsetMillis) >=169223 && (runtime-offsetMillis)<=169225) {servo5.write(90,20,false);}             // Beat 302   5-90  neutral
+if ((runtime-offsetMillis) >=169744 && (runtime-offsetMillis)<=169746) {}             // Beat 303
+if ((runtime-offsetMillis) >=170265 && (runtime-offsetMillis)<=170267) {servo1.write(95,15,false);}             // Beat 304   1-95  neutral
+if ((runtime-offsetMillis) >=170785 && (runtime-offsetMillis)<=170787) {}             // Beat 305
+if ((runtime-offsetMillis) >=171306 && (runtime-offsetMillis)<=171308) {servo5.write(140,20,false);}              // Beat 306    5-140  links
+if ((runtime-offsetMillis) >=171826 && (runtime-offsetMillis)<=171828) {servo1.write(95,30,false);}             // Beat 307       1-95   neutral
+if ((runtime-offsetMillis) >=172347 && (runtime-offsetMillis)<=172349) {servo2.write(150,10,false);}             // Beat 308      2-150 links
+if ((runtime-offsetMillis) >=172868 && (runtime-offsetMillis)<=172870) {}             // Beat 309
+if ((runtime-offsetMillis) >=173388 && (runtime-offsetMillis)<=173390) {servo5.write(70,20,false);}              // Beat 310      5-70 neutral
+if ((runtime-offsetMillis) >=173909 && (runtime-offsetMillis)<=173911) {servo1.write(110,30,false);}              // Beat 311
+if ((runtime-offsetMillis) >=174430 && (runtime-offsetMillis)<=174432) {servo1.write(80,30,false);}              // Beat 312
+if ((runtime-offsetMillis) >=174950 && (runtime-offsetMillis)<=174952) {servo1.write(110,30,false);}             // Beat 313
+if ((runtime-offsetMillis) >=175471 && (runtime-offsetMillis)<=175473) {servo1.write(80,30,false);}              // Beat 314
+if ((runtime-offsetMillis) >=175991 && (runtime-offsetMillis)<=175993) {servo1.write(95,30,false);}              // Beat 315     1-95   NEUTRAL
+if ((runtime-offsetMillis) >=176512 && (runtime-offsetMillis)<=176514) {}             // Beat 316
+if ((runtime-offsetMillis) >=177033 && (runtime-offsetMillis)<=177035) {servo2.write(100,10,false);}             // Beat 317      2-100 neutral
+if ((runtime-offsetMillis) >=177553 && (runtime-offsetMillis)<=177555) {servo3.write(105,12,false);}             // Beat 318
+if ((runtime-offsetMillis) >=178074 && (runtime-offsetMillis)<=178076) {servo2.write(40,10,false);}              // Beat 319
+if ((runtime-offsetMillis) >=178594 && (runtime-offsetMillis)<=178596) {servo3.write(95,12,false);}               // Beat 320
+if ((runtime-offsetMillis) >=179115 && (runtime-offsetMillis)<=179117) {servo1.write(65,30,false);}              // Beat 321
+if ((runtime-offsetMillis) >=179636 && (runtime-offsetMillis)<=179638) {servo3.write(85,12,false);}                  // Beat 322
+if ((runtime-offsetMillis) >=180156 && (runtime-offsetMillis)<=180158) {servo2.write(100,10,false);}             // Beat 323     2-100 neutral
+if ((runtime-offsetMillis) >=180677 && (runtime-offsetMillis)<=180679) {servo3.write(95,12,false);}                 // Beat 324  3-95   NEUTRRAL
+if ((runtime-offsetMillis) >=181197 && (runtime-offsetMillis)<=181199) {servo1.write(95,30,false);}              // Beat 325
+if ((runtime-offsetMillis) >=181718 && (runtime-offsetMillis)<=181720) {servo2.write(40,10,false);}              // Beat 326      2-40 right
+if ((runtime-offsetMillis) >=182239 && (runtime-offsetMillis)<=182241) {}             // Beat 327
+if ((runtime-offsetMillis) >=182759 && (runtime-offsetMillis)<=182761) {servo5.write(90,20,false);servo6.write(140,20,false);}       //        5/6   Neutral   // Beat 328
+if ((runtime-offsetMillis) >=183280 && (runtime-offsetMillis)<=183282) {servo3.write(105,12,false);}            // Beat 329
+if ((runtime-offsetMillis) >=183800 && (runtime-offsetMillis)<=183802) {servo6.write(175,40,false);servo5.write(40,20,false);}                                     // Beat 330           1-65  up
+if ((runtime-offsetMillis) >=184321 && (runtime-offsetMillis)<=184323) {servo1.write(70,20,false);servo2.write(50,10,false);}            // Beat 331
+if ((runtime-offsetMillis) >=184842 && (runtime-offsetMillis)<=184844) {servo3.write(95,12,false);}               // Beat 332
+if ((runtime-offsetMillis) >=185362 && (runtime-offsetMillis)<=185364) {}              // Beat 333
+if ((runtime-offsetMillis) >=185883 && (runtime-offsetMillis)<=185885) {servo5.write(120,20,false);}           // Beat 334
+if ((runtime-offsetMillis) >=186403 && (runtime-offsetMillis)<=186405) {servo2.write(110,10,false);}           // Beat 335
+if ((runtime-offsetMillis) >=186924 && (runtime-offsetMillis)<=186926) {servo6.write(140,40,false);servo5.write(90,20,false);}            // Beat 336 
+if ((runtime-offsetMillis) >=187445 && (runtime-offsetMillis)<=187447) {servo1.write(80,30,false);}           // Beat 337     
+if ((runtime-offsetMillis) >=187965 && (runtime-offsetMillis)<=187967) {servo3.write(105,12,false);}             // Beat 338
+if ((runtime-offsetMillis) >=188486 && (runtime-offsetMillis)<=188488) {servo3.write(95,12,false);}            // Beat 339
+if ((runtime-offsetMillis) >=189007 && (runtime-offsetMillis)<=189009) {servo1.write(95,30,false);}             // Beat 340
+if ((runtime-offsetMillis) >=190048 && (runtime-offsetMillis)<=190050) {servo2.write(50,30,false);}             // Beat 342
+if ((runtime-offsetMillis) >=190568 && (runtime-offsetMillis)<=190570) {servo2.write(150,30,false);}             // Beat 343
+if ((runtime-offsetMillis) >=191089 && (runtime-offsetMillis)<=191091) {servo2.write(50,30,false);}             // Beat 344
+if ((runtime-offsetMillis) >=191610 && (runtime-offsetMillis)<=191612) {servo2.write(150,30,false);}              // Beat 345
+if ((runtime-offsetMillis) >=192130 && (runtime-offsetMillis)<=192132) {servo2.write(50,30,false);}            // Beat 346
+if ((runtime-offsetMillis) >=192651 && (runtime-offsetMillis)<=192653) {servo2.write(150,30,false);}             // Beat 347   
+if ((runtime-offsetMillis) >=193171 && (runtime-offsetMillis)<=193173) {servo2.write(50,30,false);}              // Beat 348
+if ((runtime-offsetMillis) >=193692 && (runtime-offsetMillis)<=193694) {servo2.write(100,30,false);}              // Beat 349
+if ((runtime-offsetMillis) >=194213 && (runtime-offsetMillis)<=194215) {servo6.write(175,40,false);}             // Beat 350
+if ((runtime-offsetMillis) >=194733 && (runtime-offsetMillis)<=194735) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=194983 && (runtime-offsetMillis)<=194985) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=195133 && (runtime-offsetMillis)<=195135) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40     //   10   ok
+if ((runtime-offsetMillis) >=195283 && (runtime-offsetMillis)<=195285) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=195433 && (runtime-offsetMillis)<=195435) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=195583 && (runtime-offsetMillis)<=195585) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=195774 && (runtime-offsetMillis)<=195776) {servo6.write(140,40,false);}              // Beat 353
+if ((runtime-offsetMillis) >=196295 && (runtime-offsetMillis)<=196297) {servo3.write(105,12,false);}            // Beat 354
+if ((runtime-offsetMillis) >=196816 && (runtime-offsetMillis)<=196818) {servo2.write(170,30,false);servo5.write(140,40,false);}             // Beat 355
+if ((runtime-offsetMillis) >=197336 && (runtime-offsetMillis)<=197338) {servo3.write(95,12,false);}             // Beat 356
+if ((runtime-offsetMillis) >=197857 && (runtime-offsetMillis)<=197859) {servo2.write(130,30,false);servo5.write(70,40,false);servo5.write(70,40,false);}             // Beat 357
+if ((runtime-offsetMillis) >=198377 && (runtime-offsetMillis)<=198379) {servo2.write(100,30,false);servo5.write(90,40,false);}             // Beat 358
+if ((runtime-offsetMillis) >=198898 && (runtime-offsetMillis)<=198900) {servo1.write(70,20,false);servo2.write(50,10,false);servo5.write(50,40,false);servo6.write(175,40,false);}              // Beat 359
+if ((runtime-offsetMillis) >=199419 && (runtime-offsetMillis)<=199421) {servo5.write(90,40,false);servo6.write(140,40,false);}             // Beat 360
+if ((runtime-offsetMillis) >=199939 && (runtime-offsetMillis)<=199941) {servo3.write(105,12,false);}              // Beat 361
+if ((runtime-offsetMillis) >=200460 && (runtime-offsetMillis)<=200462) {}             // Beat 362
+if ((runtime-offsetMillis) >=200980 && (runtime-offsetMillis)<=200982) {servo3.write(95,12,false);}              // Beat 363  
+if ((runtime-offsetMillis) >=201501 && (runtime-offsetMillis)<=201503) {servo2.write(150,30,false);servo5.write(120,40,false);}             // Beat 364
+if ((runtime-offsetMillis) >=202022 && (runtime-offsetMillis)<=202024) {servo1.write(80,30,false);}               // Beat 365
+if ((runtime-offsetMillis) >=202542 && (runtime-offsetMillis)<=202544) {servo1.write(95,30,false);}              // Beat 366
+if ((runtime-offsetMillis) >=203063 && (runtime-offsetMillis)<=203065) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=203313 && (runtime-offsetMillis)<=203315) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=203463 && (runtime-offsetMillis)<=203465) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //  11     ok
+if ((runtime-offsetMillis) >=203613 && (runtime-offsetMillis)<=203615) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=203763 && (runtime-offsetMillis)<=203765) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=203913 && (runtime-offsetMillis)<=203915) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=203063 && (runtime-offsetMillis)<=203065) {}             // Beat 367
+if ((runtime-offsetMillis) >=203584 && (runtime-offsetMillis)<=203586) {}             // Beat 368
+if ((runtime-offsetMillis) >=204104 && (runtime-offsetMillis)<=204106) {}             // Beat 369
+if ((runtime-offsetMillis) >=204625 && (runtime-offsetMillis)<=204627) {servo2.write(130,30,false);servo5.write(70,40,false);}             // Beat 370
+if ((runtime-offsetMillis) >=205145 && (runtime-offsetMillis)<=205147) {servo3.write(95,12,false);}             // Beat 371   
+if ((runtime-offsetMillis) >=205666 && (runtime-offsetMillis)<=205668) {servo2.write(170,30,false);servo5.write(140,40,false);}              // Beat 372
+if ((runtime-offsetMillis) >=206187 && (runtime-offsetMillis)<=206189) {servo3.write(105,12,false);}              // Beat 373
+if ((runtime-offsetMillis) >=206707 && (runtime-offsetMillis)<=206709) {servo6.write(140,40,false);}             // Beat 374
+if ((runtime-offsetMillis) >=207228 && (runtime-offsetMillis)<=207230) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=207478 && (runtime-offsetMillis)<=207480) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=207628 && (runtime-offsetMillis)<=207630) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=207778 && (runtime-offsetMillis)<=207780) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //  12 ok
+if ((runtime-offsetMillis) >=207928 && (runtime-offsetMillis)<=207930) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=208078 && (runtime-offsetMillis)<=208080) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=208269 && (runtime-offsetMillis)<=208271) {servo2.write(40,10,false);servo5.write(40,50,false);servo1.write(65,10,false);}               // Beat 377
+if ((runtime-offsetMillis) >=208790 && (runtime-offsetMillis)<=208792) {servo5.write(140,40,false);servo2.write(170,15,false);servo1.write(90,10,false);}              // Beat 378
+if ((runtime-offsetMillis) >=209310 && (runtime-offsetMillis)<=209312) {servo6.write(80,20,false);servo1.write(100,15,false);}                  // Beat 379   
+if ((runtime-offsetMillis) >=209831 && (runtime-offsetMillis)<=209833) {}             // Beat 380
+if ((runtime-offsetMillis) >=210351 && (runtime-offsetMillis)<=210353) {servo6.write(160,20,false);servo1.write(65,15,false);}              // Beat 381
+if ((runtime-offsetMillis) >=210872 && (runtime-offsetMillis)<=210874) {servo6.write(130,20,false);}                       // Beat 382
+if ((runtime-offsetMillis) >=211393 && (runtime-offsetMillis)<=211395) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=211643 && (runtime-offsetMillis)<=211645) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=211793 && (runtime-offsetMillis)<=211795) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=211943 && (runtime-offsetMillis)<=211945) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   // 13 ok
+if ((runtime-offsetMillis) >=212093 && (runtime-offsetMillis)<=212095) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=212243 && (runtime-offsetMillis)<=212245) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=212434 && (runtime-offsetMillis)<=212436) {}              // Beat 385
+if ((runtime-offsetMillis) >=212954 && (runtime-offsetMillis)<=212956) {servo3.write(90,12,false);servo6.write(80,20,false);}              // Beat 386
+if ((runtime-offsetMillis) >=213475 && (runtime-offsetMillis)<=213477) {servo3.write(100,12,false);}             // Beat 387   
+if ((runtime-offsetMillis) >=213996 && (runtime-offsetMillis)<=213998) {servo6.write(175,40,false);}             // Beat 388
+if ((runtime-offsetMillis) >=214516 && (runtime-offsetMillis)<=214518) {servo1.write(70,20,false);}             // Beat 389
+if ((runtime-offsetMillis) >=215037 && (runtime-offsetMillis)<=215039) {servo6.write(80,40,false);}             // Beat 390
+if ((runtime-offsetMillis) >=215557 && (runtime-offsetMillis)<=215559) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=215807 && (runtime-offsetMillis)<=215809) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=215957 && (runtime-offsetMillis)<=215959) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=216107 && (runtime-offsetMillis)<=216109) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   //  14  ok
+if ((runtime-offsetMillis) >=216257 && (runtime-offsetMillis)<=216259) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=216407 && (runtime-offsetMillis)<=216409) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=216599 && (runtime-offsetMillis)<=216601) {servo5.write(40,20,false);servo2.write(80,10,false);servo1.write(110,20,false);}              // Beat 393
+if ((runtime-offsetMillis) >=217119 && (runtime-offsetMillis)<=217121) {servo2.write(40,10,false);servo1.write(70,15,false);}              // Beat 394 
+if ((runtime-offsetMillis) >=217640 && (runtime-offsetMillis)<=217642) {servo5.write(90,20,false);servo6.write(80,20,false);}             // Beat 395   
+if ((runtime-offsetMillis) >=218161 && (runtime-offsetMillis)<=218163) {servo2.write(90,10,false);servo6.write(130,20,false);}               // Beat 396
+if ((runtime-offsetMillis) >=218681 && (runtime-offsetMillis)<=218683) {servo2.write(170,10,false);servo5.write(140,20,false);}              // Beat 397
+if ((runtime-offsetMillis) >=219202 && (runtime-offsetMillis)<=219204) {}             // Beat 398
+if ((runtime-offsetMillis) >=219722 && (runtime-offsetMillis)<=219724) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=219972 && (runtime-offsetMillis)<=219974) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=220122 && (runtime-offsetMillis)<=220124) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=220272 && (runtime-offsetMillis)<=220274) {servo4.write(50,80,false);servo5.write(140,90,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=220422 && (runtime-offsetMillis)<=220424) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=220572 && (runtime-offsetMillis)<=220574) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=220764 && (runtime-offsetMillis)<=220766) {servo2.write(120,30,false);servo1.write(95,20,false);}              // Beat 401
+if ((runtime-offsetMillis) >=221284 && (runtime-offsetMillis)<=221286) {servo6.write(140,20,false);}                // Beat 402
+if ((runtime-offsetMillis) >=221805 && (runtime-offsetMillis)<=221807) {servo3.write(110,12,false);}               // Beat 403   
+if ((runtime-offsetMillis) >=222325 && (runtime-offsetMillis)<=222327) {servo3.write(80,12,false);servo5.write(90,100,false);}             // Beat 404
+if ((runtime-offsetMillis) >=222846 && (runtime-offsetMillis)<=222848) {servo3.write(95,12,false);}             // Beat 405
+if ((runtime-offsetMillis) >=223367 && (runtime-offsetMillis)<=223369) {servo2.write(170,15,false);}            // Beat 406
+if ((runtime-offsetMillis) >=223887 && (runtime-offsetMillis)<=223889) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224137 && (runtime-offsetMillis)<=224139) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224287 && (runtime-offsetMillis)<=224289) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224437 && (runtime-offsetMillis)<=224439) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224587 && (runtime-offsetMillis)<=224589) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224737 && (runtime-offsetMillis)<=224739) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=224928 && (runtime-offsetMillis)<=224930) {servo1.write(110,10,false);servo5.write(75,90,false);}             // Beat 409
+if ((runtime-offsetMillis) >=225449 && (runtime-offsetMillis)<=225451) {servo3.write(110,15,false);}             // Beat 410
+if ((runtime-offsetMillis) >=225970 && (runtime-offsetMillis)<=225972) {servo2.write(30,20,false);servo1.write(100,10,false);servo5.write(40,20,false);}              // Beat 411   // !Ghostbusters!
+if ((runtime-offsetMillis) >=226490 && (runtime-offsetMillis)<=226492) {servo3.write(95,15,false);}              // Beat 412
+if ((runtime-offsetMillis) >=227011 && (runtime-offsetMillis)<=227013) {servo2.write(130,15,false);servo5.write(140,20,false);}              // Beat 413
+if ((runtime-offsetMillis) >=227531 && (runtime-offsetMillis)<=227533) {servo1.write(75,10,false);}              // Beat 414
+if ((runtime-offsetMillis) >=228052 && (runtime-offsetMillis)<=228054) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=228302 && (runtime-offsetMillis)<=228304) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=228452 && (runtime-offsetMillis)<=228454) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=228602 && (runtime-offsetMillis)<=228604) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=228752 && (runtime-offsetMillis)<=228754) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=228902 && (runtime-offsetMillis)<=228904) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=229093 && (runtime-offsetMillis)<=229095) {servo2.write(80,15,false);servo1.write(60,10,false);servo5.write(120,20,false);}              // Beat 417
+if ((runtime-offsetMillis) >=229614 && (runtime-offsetMillis)<=229616) {servo1.write(90,10,false);}              // Beat 418
+if ((runtime-offsetMillis) >=230134 && (runtime-offsetMillis)<=230136) {}             // Beat 419   // !Ghostbusters!
+if ((runtime-offsetMillis) >=230655 && (runtime-offsetMillis)<=230657) {servo2.write(100,15,false);}             // Beat 420
+if ((runtime-offsetMillis) >=231176 && (runtime-offsetMillis)<=231178) {servo5.write(50,20,false);}            // Beat 421
+if ((runtime-offsetMillis) >=231696 && (runtime-offsetMillis)<=231698) {servo6.write(140,10,false);}            // Beat 422
+if ((runtime-offsetMillis) >=232217 && (runtime-offsetMillis)<=232219) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=232467 && (runtime-offsetMillis)<=232469) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=232617 && (runtime-offsetMillis)<=232619) {servo4.write(90,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=232767 && (runtime-offsetMillis)<=232769) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=232917 && (runtime-offsetMillis)<=232919) {servo4.write(70,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=233067 && (runtime-offsetMillis)<=233069) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=233258 && (runtime-offsetMillis)<=233260) {servo2.write(30,15,false);servo1.write(80,10,false);servo5.write(40,20,false);}            // Beat 425
+if ((runtime-offsetMillis) >=233779 && (runtime-offsetMillis)<=233781) {}             // Beat 426
+if ((runtime-offsetMillis) >=234299 && (runtime-offsetMillis)<=234301) {servo1.write(60,10,false);servo5.write(90,20,false);}           // Beat 427   // !Ghostbusters!
+if ((runtime-offsetMillis) >=234820 && (runtime-offsetMillis)<=234822) {}             // Beat 428
+if ((runtime-offsetMillis) >=235341 && (runtime-offsetMillis)<=235343) {servo3.write(110,12,false);}             // Beat 429
+if ((runtime-offsetMillis) >=235861 && (runtime-offsetMillis)<=235863) {servo3.write(80,12,false);}             // Beat 430
+if ((runtime-offsetMillis) >=236382 && (runtime-offsetMillis)<=236384) {servo4.write(55,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=236632 && (runtime-offsetMillis)<=236634) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=236782 && (runtime-offsetMillis)<=236784) {servo4.write(55,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=236932 && (runtime-offsetMillis)<=236934) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=237082 && (runtime-offsetMillis)<=237084) {servo4.write(55,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=237232 && (runtime-offsetMillis)<=237234) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=237423 && (runtime-offsetMillis)<=237425) {servo6.write(140,10,false);}               // Beat 433
+if ((runtime-offsetMillis) >=237944 && (runtime-offsetMillis)<=237946) {servo6.write(80,10,false);}               // Beat 434
+if ((runtime-offsetMillis) >=238464 && (runtime-offsetMillis)<=238466) {servo6.write(90,10,false);}               // Beat 435   // !Ghostbusters!
+if ((runtime-offsetMillis) >=238985 && (runtime-offsetMillis)<=238987) {}             // Beat 436
+if ((runtime-offsetMillis) >=239505 && (runtime-offsetMillis)<=239507) {servo3.write(110,12,false);}              // Beat 437
+if ((runtime-offsetMillis) >=240026 && (runtime-offsetMillis)<=240028) {servo3.write(80,12,false);}              // Beat 438
+if ((runtime-offsetMillis) >=240547 && (runtime-offsetMillis)<=240549) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=240797 && (runtime-offsetMillis)<=240799) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=240947 && (runtime-offsetMillis)<=240949) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=241097 && (runtime-offsetMillis)<=241099) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=241247 && (runtime-offsetMillis)<=241249) {servo4.write(50,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=241397 && (runtime-offsetMillis)<=241399) {servo4.write(47,80,false);}// JAW  MAX OPEN 95   MID 70  MAX CLOSED 40   
+if ((runtime-offsetMillis) >=241588 && (runtime-offsetMillis)<=241590) {}             // Beat 441
+if ((runtime-offsetMillis) >=242108 && (runtime-offsetMillis)<=242110) {}             // Beat 442
+if ((runtime-offsetMillis) >=242629 && (runtime-offsetMillis)<=242631) {}             // Beat 443   // !Ghostbusters!
+if ((runtime-offsetMillis) >=243150 && (runtime-offsetMillis)<=243152) {servo3.write(95,40,false);servo2.write(100,15,false);}              // Beat 444
+if ((runtime-offsetMillis) >=243670 && (runtime-offsetMillis)<=243672) {servo1  .write(120,12,false);servo6.write(80,10,false);}              // Beat 445
+if ((runtime-offsetMillis) >=244191 && (runtime-offsetMillis)<=244193) {}             // Beat 446
+if ((runtime-offsetMillis) == 244711)   {for(int i = EI; (i > 0) && ((runtime-offsetMillis) >= 9); i--){eyes.setPixelColor(0, eyes.Color(i,0,i));eyes.setPixelColor(1, eyes.Color(i,0,i)); eyes.show();delay(10); }}        // Beat 447
+if ((runtime-offsetMillis) == 245232)  {}             // Beat 448  
+if ((runtime-offsetMillis) == 245753)  {}             // Beat 449
+if ((runtime-offsetMillis) == 246273)  {}             // Beat 450
+if ((runtime-offsetMillis) == 246794)  {}             // Beat 451    
+if ((runtime-offsetMillis) == 247315)  {}             // Beat 452
+if ((runtime-offsetMillis) == 247835)  {}             // Beat 453
+if ((runtime-offsetMillis) == 248356)  {}             // Beat 454
+
+
+
+// *************************************************RESET***********************************************************
+             if ((runtime-offsetMillis) >= 255000)  {  
+              
+setup();
+              }  
+
+}        
+         
+  

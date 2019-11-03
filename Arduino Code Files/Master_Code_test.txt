@@ -1,0 +1,577 @@
+// Test version- runs only one time line, resets and waits for start button. Stop switch resets immediately.
+
+//  Light Codes
+
+//  1  FadeInOut - Color (red, green. blue)
+//  2  STROBE WHITE     
+//  3  Strobe - Color (red, green, blue), number of flashes, flash speed, end pause
+//  4  Twinkle - Color
+//  5  TWINKLE  TwinkleRandom 
+//  6  Running Lights - Color (red, green, blue), wave dealy
+//  7  Sparkle - Color (red, green, blue), speed delay
+//  8  Running Lights - RED WHITE BLUE
+//  10 rainbowCycle
+//  11 theatherChase red
+//  12 theatherChase - RAINBOW  (red, green, blue), speed delay
+//  13 Fire(55,120,15);    theaterChaseRainbow - 
+//  14 meteorRain -WHITE
+//  15 Centerspot()
+//  16 Outspot()
+//  17 SLOWStrobe - MultiColor
+//  18 meteorRain -PINK
+//  19 meteorRain -GREEN
+//  20 Snow Sparkle
+
+
+#include <SoftwareSerial.h>
+
+
+// inputs and outputs 
+const int STARTBAND = 2;                    // Start the band of slave skulls                   
+const int RESETSFX = 3;                     // Reset soundboard
+const int LIGHTSOFF = 5;                    // Reset lights slave arduino to off
+const int PLAY1 = 6;                        // Start soundboard
+const int STOPSWITCH = 7;                   // Stopswitch
+const int STARTSWITCH = 8;                  // Startswitch
+const int INDICATOR = 12;                   // Optional Indicator for testing
+unsigned long runtime;          
+unsigned long offsetMillis;
+
+
+void setup () {
+// set the modes for the switches / pins
+  pinMode(STARTSWITCH, INPUT_PULLUP);
+  pinMode(STOPSWITCH, INPUT_PULLUP);
+  pinMode(PLAY1, OUTPUT);
+  pinMode(RESETSFX, OUTPUT);
+  pinMode(STARTBAND, OUTPUT);
+  pinMode(LIGHTSOFF, OUTPUT);
+  pinMode(INDICATOR, OUTPUT);
+  
+
+// Preset Pin Signals
+  digitalWrite(STARTBAND, HIGH);      // Activates slave skulls when LOW
+  digitalWrite(RESETSFX, HIGH);       // Resets sound board when LOW
+  digitalWrite(PLAY1, HIGH);          // Activates sound board when LOW
+  digitalWrite(LIGHTSOFF, LOW);       // Triggers lights off on lights slave when HIGH (through transistor)
+  digitalWrite(INDICATOR, HIGH);      // Optional indicator for testing     
+
+
+// Serial COM setup
+  Serial.begin(9600);
+  Serial.setTimeout(10);
+
+  
+// Start Switch Option (for testing and programming) - will not be used in continuous play mode    
+  while (digitalRead(STARTSWITCH) == HIGH) {}
+  offsetMillis = millis();
+
+}   // void setup
+
+void loop() 
+{
+
+  runtime=millis();
+  
+  digitalWrite(INDICATOR, LOW); // shows when loop gets active (optional)
+
+// Stop switch action for testing / programming purposes - will not be used in continuous play mode
+  
+  if (digitalRead(STOPSWITCH) == LOW) 
+  {
+    digitalWrite(RESETSFX, LOW);
+    RSTLT();
+    delay(200);
+    digitalWrite(RESETSFX, HIGH); setup();
+  }
+ 
+
+
+if ((runtime-offsetMillis) >=    3000 && (runtime-offsetMillis) <=    3003) {digitalWrite (STARTBAND,LOW);}
+if ((runtime-offsetMillis) >=    3200 && (runtime-offsetMillis) <=    3203) {digitalWrite (STARTBAND,HIGH);}
+if ((runtime-offsetMillis) >=    4200 && (runtime-offsetMillis) <=    4203) {digitalWrite (PLAY1, LOW);}
+if ((runtime-offsetMillis) >=    4700 && (runtime-offsetMillis) <=    4703) {digitalWrite (PLAY1, HIGH);}
+
+
+if ((runtime-offsetMillis) >=    6721 && (runtime-offsetMillis) <=    6724) { RSTLT(); delay(6);Serial.print(13);delay(5); }               // Beat 1  TWINKLE COLOR
+if ((runtime-offsetMillis) >=    7241 && (runtime-offsetMillis) <=    7244) { }               // Beat 2
+if ((runtime-offsetMillis) >=    7762 && (runtime-offsetMillis) <=    7765) { }               // Beat 3
+if ((runtime-offsetMillis) >=    8282 && (runtime-offsetMillis) <=    8285) { }               // Beat 4
+if ((runtime-offsetMillis) >=    8803 && (runtime-offsetMillis) <=    8806) { }               // Beat 5
+if ((runtime-offsetMillis) >=    9324 && (runtime-offsetMillis) <=    9327) { }               // Beat 6
+if ((runtime-offsetMillis) >=    9844 && (runtime-offsetMillis) <=    9847) { }               // Beat 7
+if ((runtime-offsetMillis) >=   10365 && (runtime-offsetMillis) <=   10368) { }               // Beat 8
+if ((runtime-offsetMillis) >=   10885 && (runtime-offsetMillis) <=   10888) { }               // Beat 9
+if ((runtime-offsetMillis) >=   11406 && (runtime-offsetMillis) <=   11409) { }               // Beat 10
+if ((runtime-offsetMillis) >=   11927 && (runtime-offsetMillis) <=   11930) { }               // Beat 11
+if ((runtime-offsetMillis) >=   12447 && (runtime-offsetMillis) <=   12450) { }               // Beat 12
+if ((runtime-offsetMillis) >=   12968 && (runtime-offsetMillis) <=   12971) { }               // Beat 13
+if ((runtime-offsetMillis) >=   13488 && (runtime-offsetMillis) <=   13491) { }               // Beat 14
+if ((runtime-offsetMillis) >=   14009 && (runtime-offsetMillis) <=   14012) { }               // Beat 15
+if ((runtime-offsetMillis) >=   14530 && (runtime-offsetMillis) <=   14533) { }               // Beat 16
+if ((runtime-offsetMillis) >=   15050 && (runtime-offsetMillis) <=   15053) { RSTLT(); delay(6);Serial.print(3);delay(5);}               // Beat 17
+if ((runtime-offsetMillis) >=   15571 && (runtime-offsetMillis) <=   15574) { }               // Beat 18
+if ((runtime-offsetMillis) >=   16091 && (runtime-offsetMillis) <=   16094) { }                 // Beat 19
+if ((runtime-offsetMillis) >=   16612 && (runtime-offsetMillis) <=   16615) { }               // Beat 20
+if ((runtime-offsetMillis) >=   17133 && (runtime-offsetMillis) <=   17136) { RSTLT(); delay(6);Serial.print(12);delay(5); }               // Beat 21
+if ((runtime-offsetMillis) >=   17653 && (runtime-offsetMillis) <=   17656) { }               // Beat 22
+if ((runtime-offsetMillis) >=   18174 && (runtime-offsetMillis) <=   18177) { }               // Beat 23
+if ((runtime-offsetMillis) >=   18694 && (runtime-offsetMillis) <=   18697) { }               // Beat 24
+if ((runtime-offsetMillis) >=   19215 && (runtime-offsetMillis) <=   19218) { }               // Beat 25
+if ((runtime-offsetMillis) >=   19736 && (runtime-offsetMillis) <=   19739) { }               // Beat 26
+if ((runtime-offsetMillis) >=   20256 && (runtime-offsetMillis) <=   20259) { }               // Beat 27
+if ((runtime-offsetMillis) >=   20777 && (runtime-offsetMillis) <=   20780) { }               // Beat 28
+if ((runtime-offsetMillis) >=   21297 && (runtime-offsetMillis) <=   21300) { }               // Beat 29
+if ((runtime-offsetMillis) >=   21818 && (runtime-offsetMillis) <=   21821) { }               // Beat 30
+if ((runtime-offsetMillis) >=   22339 && (runtime-offsetMillis) <=   22342) { }               // Beat 31
+if ((runtime-offsetMillis) >=   22859 && (runtime-offsetMillis) <=   22862) { }               // Beat 32
+if ((runtime-offsetMillis) >=   23380 && (runtime-offsetMillis) <=   23383) { }               // Beat 33
+if ((runtime-offsetMillis) >=   23900 && (runtime-offsetMillis) <=   23903) { }               // Beat 34
+if ((runtime-offsetMillis) >=   24421 && (runtime-offsetMillis) <=   24424) { }               // Beat 35
+if ((runtime-offsetMillis) >=   24942 && (runtime-offsetMillis) <=   24945) { }               // Beat 36
+if ((runtime-offsetMillis) >=   25462 && (runtime-offsetMillis) <=   25465) { RSTLT(); delay(6);Serial.print(10);delay(5); }                // Beat 37  RAINBOW CYCLE
+if ((runtime-offsetMillis) >=   25983 && (runtime-offsetMillis) <=   25986) { }               // Beat 38
+if ((runtime-offsetMillis) >=   26503 && (runtime-offsetMillis) <=   26506) { }               // Beat 39
+if ((runtime-offsetMillis) >=   27024 && (runtime-offsetMillis) <=   27027) { }               // Beat 40
+if ((runtime-offsetMillis) >=   27545 && (runtime-offsetMillis) <=   27548) { }               // Beat 41
+if ((runtime-offsetMillis) >=   28065 && (runtime-offsetMillis) <=   28068) { }               // Beat 42
+if ((runtime-offsetMillis) >=   28586 && (runtime-offsetMillis) <=   28589) { }               // Beat 43
+if ((runtime-offsetMillis) >=   29106 && (runtime-offsetMillis) <=   29109) { }               // Beat 44
+if ((runtime-offsetMillis) >=   29627 && (runtime-offsetMillis) <=   29630) { }               // Beat 45
+if ((runtime-offsetMillis) >=   30148 && (runtime-offsetMillis) <=   30151) { }               // Beat 46
+if ((runtime-offsetMillis) >=   30668 && (runtime-offsetMillis) <=   30671) { }               // Beat 47   
+if ((runtime-offsetMillis) >=   31189 && (runtime-offsetMillis) <=   31192) { RSTLT(); delay(6);Serial.print(16);delay(5); }               // Beat 48  OUTSPOT
+if ((runtime-offsetMillis) >=   31709 && (runtime-offsetMillis) <=   31712) { }               // Beat 49  
+if ((runtime-offsetMillis) >=   32230 && (runtime-offsetMillis) <=   32233) { RSTLT(); delay(6);Serial.print(14);delay(5); }                // Beat 50 Meteorrain White 
+if ((runtime-offsetMillis) >=   32751 && (runtime-offsetMillis) <=   32754) { }               // Beat 51
+if ((runtime-offsetMillis) >=   33271 && (runtime-offsetMillis) <=   33274) { RSTLT(); delay(6);Serial.print(15);delay(5); }              // Beat 52  CENTERSPOT
+if ((runtime-offsetMillis) >=   33792 && (runtime-offsetMillis) <=   33795) { }               // Beat 53
+if ((runtime-offsetMillis) >=   34312 && (runtime-offsetMillis) <=   34315) { RSTLT(); delay(6);Serial.print(19);delay(5); }              // Beat 54  Meteorrain green 
+if ((runtime-offsetMillis) >=   34833 && (runtime-offsetMillis) <=   34836) { }               // Beat 55
+if ((runtime-offsetMillis) >=   35354 && (runtime-offsetMillis) <=   35357) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 56  CENTERSPOT
+if ((runtime-offsetMillis) >=   35874 && (runtime-offsetMillis) <=   35877) { }               // Beat 57
+if ((runtime-offsetMillis) >=   36395 && (runtime-offsetMillis) <=   36398) { }               // Beat 58 
+if ((runtime-offsetMillis) >=   36915 && (runtime-offsetMillis) <=   36918) { RSTLT(); delay(6);Serial.print(18);delay(5); }              // Beat 59 Meteorrain PINK 
+if ((runtime-offsetMillis) >=   37436 && (runtime-offsetMillis) <=   37439) { }                // Beat 60
+if ((runtime-offsetMillis) >=   37957 && (runtime-offsetMillis) <=   37960) { RSTLT(); delay(6);Serial.print(15);delay(5); }             // Beat 61  CENTERSPOT 
+if ((runtime-offsetMillis) >=   38477 && (runtime-offsetMillis) <=   38480) { }               // Beat 62
+if ((runtime-offsetMillis) >=   38998 && (runtime-offsetMillis) <=   39001) { }                // Beat 63
+if ((runtime-offsetMillis) >=   39518 && (runtime-offsetMillis) <=   39521) { RSTLT(); delay(6);Serial.print(16);delay(5); }              // Beat 64  OUTSPOT
+if ((runtime-offsetMillis) >=   40039 && (runtime-offsetMillis) <=   40042) { }               // Beat 65 
+if ((runtime-offsetMillis) >=   40560 && (runtime-offsetMillis) <=   40563) { RSTLT(); delay(6);Serial.print(3);delay(5); }                // Beat 66 STROBE COLOR
+if ((runtime-offsetMillis) >=   41080 && (runtime-offsetMillis) <=   41083) { }               // Beat 67
+if ((runtime-offsetMillis) >=   41601 && (runtime-offsetMillis) <=   41604) { RSTLT(); delay(6);Serial.print(15);delay(5); }              // Beat 68 CENTERSPOT
+if ((runtime-offsetMillis) >=   42121 && (runtime-offsetMillis) <=   42124) { }                // Beat 69
+if ((runtime-offsetMillis) >=   42642 && (runtime-offsetMillis) <=   42645) { }                // Beat 70 
+if ((runtime-offsetMillis) >=   43163 && (runtime-offsetMillis) <=   43166) { RSTLT(); delay(6);Serial.print(3);delay(5); }               // Beat 71  STROBE COLOR
+if ((runtime-offsetMillis) >=   43683 && (runtime-offsetMillis) <=   43686) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 72  CENTERSPOT
+if ((runtime-offsetMillis) >=   44204 && (runtime-offsetMillis) <=   44207) { }              // Beat 73
+if ((runtime-offsetMillis) >=   44724 && (runtime-offsetMillis) <=   44727) { }               // Beat 74  
+if ((runtime-offsetMillis) >=   45245 && (runtime-offsetMillis) <=   45248) { RSTLT(); delay(6);Serial.print(3);delay(5); }                // Beat 75  STROBE COLOR
+if ((runtime-offsetMillis) >=   45766 && (runtime-offsetMillis) <=   45769) { }               // Beat 76
+if ((runtime-offsetMillis) >=   46286 && (runtime-offsetMillis) <=   46289) { RSTLT(); delay(6);Serial.print(15);delay(5); }                  // Beat 77  CENTERSPOT
+if ((runtime-offsetMillis) >=   46807 && (runtime-offsetMillis) <=   46810) { }               // Beat 78
+if ((runtime-offsetMillis) >=   47327 && (runtime-offsetMillis) <=   47330) { RSTLT(); delay(6);Serial.print(19);delay(5); }               // Beat 79  Meteorrain green 
+if ((runtime-offsetMillis) >=   47848 && (runtime-offsetMillis) <=   47851) { RSTLT(); delay(6);Serial.print(16);delay(5); }               // Beat 80  OUTSPOT
+if ((runtime-offsetMillis) >=   48369 && (runtime-offsetMillis) <=   48372) { }               // Beat 81
+if ((runtime-offsetMillis) >=   48889 && (runtime-offsetMillis) <=   48892) { }               // Beat 82
+if ((runtime-offsetMillis) >=   49410 && (runtime-offsetMillis) <=   49413) { RSTLT(); delay(6);Serial.print(3);delay(5); }                // Beat 83  STROBE COLOR 
+if ((runtime-offsetMillis) >=   49930 && (runtime-offsetMillis) <=   49933) { }               // Beat 84
+if ((runtime-offsetMillis) >=   50451 && (runtime-offsetMillis) <=   50454) { RSTLT(); delay(6);Serial.print(10);delay(5); }                 // Beat 85   RAINBOW CYCLE
+if ((runtime-offsetMillis) >=   50972 && (runtime-offsetMillis) <=   50975) { }               // Beat 86
+if ((runtime-offsetMillis) >=   51492 && (runtime-offsetMillis) <=   51495) { }               // Beat 87
+if ((runtime-offsetMillis) >=   52013 && (runtime-offsetMillis) <=   52016) { }               // Beat 88
+if ((runtime-offsetMillis) >=   52533 && (runtime-offsetMillis) <=   52536) { }               // Beat 89
+if ((runtime-offsetMillis) >=   53054 && (runtime-offsetMillis) <=   53057) { }               // Beat 90
+if ((runtime-offsetMillis) >=   53575 && (runtime-offsetMillis) <=   53578) { }               // Beat 91
+if ((runtime-offsetMillis) >=   54095 && (runtime-offsetMillis) <=   54098) { }               // Beat 92
+if ((runtime-offsetMillis) >=   54616 && (runtime-offsetMillis) <=   54619) { }               // Beat 93
+if ((runtime-offsetMillis) >=   55136 && (runtime-offsetMillis) <=   55139) { }               // Beat 94
+if ((runtime-offsetMillis) >=   55657 && (runtime-offsetMillis) <=   55660) { }               // Beat 95
+if ((runtime-offsetMillis) >=   56178 && (runtime-offsetMillis) <=   56181) { }               // Beat 96
+if ((runtime-offsetMillis) >=   56698 && (runtime-offsetMillis) <=   56701) { RSTLT(); delay(6);Serial.print(15);delay(5); }                 // Beat 97  CENTERSPOT
+if ((runtime-offsetMillis) >=   57219 && (runtime-offsetMillis) <=   57222) { }               // Beat 98
+if ((runtime-offsetMillis) >=   57739 && (runtime-offsetMillis) <=   57742) { }               // Beat 99
+if ((runtime-offsetMillis) >=   58260 && (runtime-offsetMillis) <=   58263) { RSTLT(); delay(6);Serial.print(10);delay(5); }                  // Beat 100  RAINBOW CYCLE
+if ((runtime-offsetMillis) >=   58781 && (runtime-offsetMillis) <=   58784) { }               // Beat 101
+if ((runtime-offsetMillis) >=   59301 && (runtime-offsetMillis) <=   59304) { }               // Beat 102
+if ((runtime-offsetMillis) >=   59822 && (runtime-offsetMillis) <=   59825) { }               // Beat 103
+if ((runtime-offsetMillis) >=   60342 && (runtime-offsetMillis) <=   60345) { }               // Beat 104
+if ((runtime-offsetMillis) >=   60863 && (runtime-offsetMillis) <=   60866) { }               // Beat 105
+if ((runtime-offsetMillis) >=   61384 && (runtime-offsetMillis) <=   61387) { }               // Beat 106
+if ((runtime-offsetMillis) >=   61904 && (runtime-offsetMillis) <=   61907) { }               // Beat 107
+if ((runtime-offsetMillis) >=   62425 && (runtime-offsetMillis) <=   62428) { }               // Beat 108
+if ((runtime-offsetMillis) >=   62945 && (runtime-offsetMillis) <=   62948) { }               // Beat 109
+if ((runtime-offsetMillis) >=   63466 && (runtime-offsetMillis) <=   63469) { }               // Beat 110
+if ((runtime-offsetMillis) >=   63987 && (runtime-offsetMillis) <=   63990) { }               // Beat 111
+if ((runtime-offsetMillis) >=   64507 && (runtime-offsetMillis) <=   64510) { }               // Beat 112
+if ((runtime-offsetMillis) >=   65028 && (runtime-offsetMillis) <=   65031) { RSTLT(); delay(6);Serial.print(15);delay(5); }                 // Beat 113  CENTERSPOT  
+if ((runtime-offsetMillis) >=   65548 && (runtime-offsetMillis) <=   65551) { }               // Beat 114
+if ((runtime-offsetMillis) >=   66069 && (runtime-offsetMillis) <=   66072) { RSTLT(); delay(6);Serial.print(2);delay(5);}               // Beat 115  STROBE WHITE
+if ((runtime-offsetMillis) >=   66590 && (runtime-offsetMillis) <=   66593) {   }               // Beat 116   
+if ((runtime-offsetMillis) >=   67110 && (runtime-offsetMillis) <=   67113) { RSTLT(); delay(6);Serial.print(10);delay(5); }                 // Beat 117  RAINBOW CYCLE
+if ((runtime-offsetMillis) >=   67631 && (runtime-offsetMillis) <=   67634) { }               // Beat 118
+if ((runtime-offsetMillis) >=   68151 && (runtime-offsetMillis) <=   68154) { }               // Beat 119
+if ((runtime-offsetMillis) >=   68672 && (runtime-offsetMillis) <=   68675) { }               // Beat 120
+if ((runtime-offsetMillis) >=   69193 && (runtime-offsetMillis) <=   69196) { }               // Beat 121
+if ((runtime-offsetMillis) >=   69713 && (runtime-offsetMillis) <=   69716) { }               // Beat 122
+if ((runtime-offsetMillis) >=   70234 && (runtime-offsetMillis) <=   70237) { }               // Beat 123
+if ((runtime-offsetMillis) >=   70754 && (runtime-offsetMillis) <=   70757) { }               // Beat 124
+if ((runtime-offsetMillis) >=   71275 && (runtime-offsetMillis) <=   71278) { }               // Beat 125
+if ((runtime-offsetMillis) >=   71796 && (runtime-offsetMillis) <=   71799) { }               // Beat 126
+if ((runtime-offsetMillis) >=   72316 && (runtime-offsetMillis) <=   72319) { }               // Beat 127
+if ((runtime-offsetMillis) >=   72837 && (runtime-offsetMillis) <=   72840) { }               // Beat 128
+if ((runtime-offsetMillis) >=   73357 && (runtime-offsetMillis) <=   73360) { }               // Beat 129
+if ((runtime-offsetMillis) >=   73878 && (runtime-offsetMillis) <=   73881) { }               // Beat 130
+if ((runtime-offsetMillis) >=   74399 && (runtime-offsetMillis) <=   74402) { }               // Beat 131
+if ((runtime-offsetMillis) >=   74919 && (runtime-offsetMillis) <=   74922) { RSTLT(); delay(6);Serial.print(15);delay(5); }                 // Beat 132  CENTERSPOT
+if ((runtime-offsetMillis) >=   75440 && (runtime-offsetMillis) <=   75443) { }               // Beat 133
+if ((runtime-offsetMillis) >=   75960 && (runtime-offsetMillis) <=   75963) { }               // Beat 134
+if ((runtime-offsetMillis) >=   76481 && (runtime-offsetMillis) <=   76484) { RSTLT(); delay(6);Serial.print(3);delay(5); }               // Beat 135  STROBE COLOR
+if ((runtime-offsetMillis) >=   77002 && (runtime-offsetMillis) <=   77005) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 136  CENTERSPOT
+if ((runtime-offsetMillis) >=   77522 && (runtime-offsetMillis) <=   77525) { }               // Beat 137
+if ((runtime-offsetMillis) >=   78043 && (runtime-offsetMillis) <=   78046) { }               // Beat 138
+if ((runtime-offsetMillis) >=   78563 && (runtime-offsetMillis) <=   78566) { RSTLT(); delay(6);Serial.print(3);delay(5); }              // Beat 139    STROBE COLOR
+if ((runtime-offsetMillis) >=   79084 && (runtime-offsetMillis) <=   79087) { }               // Beat 140
+if ((runtime-offsetMillis) >=   79605 && (runtime-offsetMillis) <=   79608) { RSTLT(); delay(6);Serial.print(15);delay(5); }              // Beat 141   CENTERSPOT
+if ((runtime-offsetMillis) >=   80125 && (runtime-offsetMillis) <=   80128) { RSTLT(); delay(6);Serial.print(14);delay(5); }              // Beat 142   METEOR WHITE
+if ((runtime-offsetMillis) >=   80646 && (runtime-offsetMillis) <=   80649) { }               // Beat 143
+if ((runtime-offsetMillis) >=   81166 && (runtime-offsetMillis) <=   81169) { RSTLT(); delay(6);Serial.print(16);delay(5); }              // Beat 144   OUTSPOT
+if ((runtime-offsetMillis) >=   81687 && (runtime-offsetMillis) <=   81690) { }               // Beat 145
+if ((runtime-offsetMillis) >=   82208 && (runtime-offsetMillis) <=   82211) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 146   STROBE COLOR
+if ((runtime-offsetMillis) >=   82728 && (runtime-offsetMillis) <=   82731) { }               // Beat 147
+if ((runtime-offsetMillis) >=   83249 && (runtime-offsetMillis) <=   83252) { RSTLT(); delay(6);Serial.print(15);delay(5); }         // Beat 148  CENTERSPOT
+if ((runtime-offsetMillis) >=   83769 && (runtime-offsetMillis) <=   83772) { }               // Beat 149
+if ((runtime-offsetMillis) >=   84290 && (runtime-offsetMillis) <=   84293) { }               // Beat 150
+if ((runtime-offsetMillis) >=   84811 && (runtime-offsetMillis) <=   84814) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 151  STROBE COLOR
+if ((runtime-offsetMillis) >=   85331 && (runtime-offsetMillis) <=   85334) { RSTLT(); delay(6);Serial.print(15);delay(5); }            // Beat 152    CENTERSPOT
+if ((runtime-offsetMillis) >=   85852 && (runtime-offsetMillis) <=   85855) { }               // Beat 153
+if ((runtime-offsetMillis) >=   86372 && (runtime-offsetMillis) <=   86375) { }               // Beat 154
+if ((runtime-offsetMillis) >=   86893 && (runtime-offsetMillis) <=   86896) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 155  STROBE COLOR
+if ((runtime-offsetMillis) >=   87414 && (runtime-offsetMillis) <=   87417) { RSTLT(); delay(6);Serial.print(15);delay(5); }            // Beat 156   CENTERSPOT
+if ((runtime-offsetMillis) >=   87934 && (runtime-offsetMillis) <=   87937) { }               // Beat 157
+if ((runtime-offsetMillis) >=   88455 && (runtime-offsetMillis) <=   88458) { }               // Beat 158
+if ((runtime-offsetMillis) >=   88975 && (runtime-offsetMillis) <=   88978) { RSTLT(); delay(6);Serial.print(19);delay(5); }              // Beat 159   Meteor Green
+if ((runtime-offsetMillis) >=   89496 && (runtime-offsetMillis) <=   89499) { RSTLT(); delay(6);Serial.print(16);delay(5); }              // Beat 160   OUTSPOT
+if ((runtime-offsetMillis) >=   90017 && (runtime-offsetMillis) <=   90020) { }               // Beat 161
+if ((runtime-offsetMillis) >=   90537 && (runtime-offsetMillis) <=   90540) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 162   STROBE COLOR
+if ((runtime-offsetMillis) >=   91058 && (runtime-offsetMillis) <=   91061) { }               // Beat 163
+if ((runtime-offsetMillis) >=   91578 && (runtime-offsetMillis) <=   91581) { }               // Beat 164
+if ((runtime-offsetMillis) >=   92099 && (runtime-offsetMillis) <=   92102) { RSTLT(); delay(6);Serial.print(12);delay(5); }             // Beat 165    THEATER CASE RAINBOW
+if ((runtime-offsetMillis) >=   92620 && (runtime-offsetMillis) <=   92623) { }               // Beat 166
+if ((runtime-offsetMillis) >=   93140 && (runtime-offsetMillis) <=   93143) { }               // Beat 167
+if ((runtime-offsetMillis) >=   93661 && (runtime-offsetMillis) <=   93664) { }               // Beat 168
+if ((runtime-offsetMillis) >=   94181 && (runtime-offsetMillis) <=   94184) { }               // Beat 169
+if ((runtime-offsetMillis) >=   94702 && (runtime-offsetMillis) <=   94705) { }               // Beat 170
+if ((runtime-offsetMillis) >=   95223 && (runtime-offsetMillis) <=   95226)  {  }               // Beat 171
+if ((runtime-offsetMillis) >=   95743 && (runtime-offsetMillis) <=   95746)  {  }               // Beat 172
+if ((runtime-offsetMillis) >=   96264 && (runtime-offsetMillis) <=   96267)  {  }               // Beat 173
+if ((runtime-offsetMillis) >=   96784 && (runtime-offsetMillis) <=   96787)  {  }               // Beat 174
+if ((runtime-offsetMillis) >=   97305 && (runtime-offsetMillis) <=   97308)  {  }               // Beat 175
+if ((runtime-offsetMillis) >=   97826 && (runtime-offsetMillis) <=   97829)  {  }               // Beat 176
+if ((runtime-offsetMillis) >=   98346 && (runtime-offsetMillis) <=   98349) { RSTLT(); delay(6);Serial.print(15);delay(5); }           // Beat 177 RSTLT(); delay(6);Serial.print(15);delay(5); } 
+if ((runtime-offsetMillis) >=   98867 && (runtime-offsetMillis) <=   98870)  {  }               // Beat 178
+if ((runtime-offsetMillis) >=   99387 && (runtime-offsetMillis) <=   99390) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 179  STROBE COLOR
+if ((runtime-offsetMillis) >=   99908 && (runtime-offsetMillis) <=   99911)  {  }               // Beat 180
+if ((runtime-offsetMillis) >=  100429 && (runtime-offsetMillis) <=  100432) { RSTLT(); delay(6);Serial.print(12);delay(5); }           // Beat 181  THEATER CASE RAINBOW
+if ((runtime-offsetMillis) >=  100949 && (runtime-offsetMillis) <=  100952)  {  }               // Beat 182
+if ((runtime-offsetMillis) >=  101470 && (runtime-offsetMillis) <=  101473)  {  }               // Beat 183
+if ((runtime-offsetMillis) >=  101990 && (runtime-offsetMillis) <=  101993)  {  }               // Beat 184
+if ((runtime-offsetMillis) >=  102511 && (runtime-offsetMillis) <=  102514)  {  }               // Beat 185
+if ((runtime-offsetMillis) >=  103032 && (runtime-offsetMillis) <=  103035)  {  }               // Beat 186
+if ((runtime-offsetMillis) >=  103552 && (runtime-offsetMillis) <=  103555)  {  }               // Beat 187
+if ((runtime-offsetMillis) >=  104073 && (runtime-offsetMillis) <=  104076)  {  }               // Beat 188
+if ((runtime-offsetMillis) >=  104593 && (runtime-offsetMillis) <=  104596)  {  }               // Beat 189
+if ((runtime-offsetMillis) >=  105114 && (runtime-offsetMillis) <=  105117)  {  }               // Beat 190
+if ((runtime-offsetMillis) >=  105635 && (runtime-offsetMillis) <=  105638)  {  }               // Beat 191
+if ((runtime-offsetMillis) >=  106155 && (runtime-offsetMillis) <=  106158)  {  }               // Beat 192
+if ((runtime-offsetMillis) >=  106676 && (runtime-offsetMillis) <=  106679) { RSTLT(); delay(6);Serial.print(15);delay(5); }             // Beat 193  CENTERSPOT
+if ((runtime-offsetMillis) >=  107196 && (runtime-offsetMillis) <=  107199)  {  }               // Beat 194
+if ((runtime-offsetMillis) >=  107717 && (runtime-offsetMillis) <=  107720)  {  }               // Beat 195
+if ((runtime-offsetMillis) >=  108238 && (runtime-offsetMillis) <=  108241) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 196    STROBE COLOR
+if ((runtime-offsetMillis) >=  108758 && (runtime-offsetMillis) <=  108761) { RSTLT(); delay(6);Serial.print(12);delay(5); }             // Beat 197  THEATER CASE RAINBOW
+if ((runtime-offsetMillis) >=  109279 && (runtime-offsetMillis) <=  109282)  {  }               // Beat 198
+if ((runtime-offsetMillis) >=  109799 && (runtime-offsetMillis) <=  109802)  {  }               // Beat 199
+if ((runtime-offsetMillis) >=  110320 && (runtime-offsetMillis) <=  110323)  {  }               // Beat 200
+if ((runtime-offsetMillis) >=  110841 && (runtime-offsetMillis) <=  110844)  {  }               // Beat 201
+if ((runtime-offsetMillis) >=  111361 && (runtime-offsetMillis) <=  111364)  {  }               // Beat 202
+if ((runtime-offsetMillis) >=  111882 && (runtime-offsetMillis) <=  111885)  {  }               // Beat 203
+if ((runtime-offsetMillis) >=  112402 && (runtime-offsetMillis) <=  112405)  {  }               // Beat 204
+if ((runtime-offsetMillis) >=  112923 && (runtime-offsetMillis) <=  112926)  { RSTLT(); delay(6);Serial.print(15);delay(5); }             // Beat 205  CENTERSPOT
+if ((runtime-offsetMillis) >=  113444 && (runtime-offsetMillis) <=  113447)  {  }               // Beat 206
+if ((runtime-offsetMillis) >=  113964 && (runtime-offsetMillis) <=  113967) { RSTLT(); delay(6);Serial.print(14);delay(5); }           // Beat 207   METEOR WHITE
+if ((runtime-offsetMillis) >=  114485 && (runtime-offsetMillis) <=  114488) { RSTLT(); delay(6);Serial.print(16);delay(5); }             // Beat 208   OUTSPOT
+if ((runtime-offsetMillis) >=  115005 && (runtime-offsetMillis) <=  115008)  {  }               // Beat 209
+if ((runtime-offsetMillis) >=  115526 && (runtime-offsetMillis) <=  115529) { RSTLT(); delay(6);Serial.print(3);delay(5); }            // Beat 210   STROBE COLOR
+if ((runtime-offsetMillis) >=  116047 && (runtime-offsetMillis) <=  116050)  {  }               // Beat 211
+if ((runtime-offsetMillis) >=  116567 && (runtime-offsetMillis) <=  116570) { RSTLT(); delay(6);Serial.print(15);delay(5);  }             // Beat 212   OUTSPOT
+if ((runtime-offsetMillis) >=  117088 && (runtime-offsetMillis) <=  117091)  {  }               // Beat 213
+if ((runtime-offsetMillis) >=  117608 && (runtime-offsetMillis) <=  117611)  {  }               // Beat 214
+if ((runtime-offsetMillis) >=  118129 && (runtime-offsetMillis) <=  118132) { RSTLT(); delay(6);Serial.print(3);delay(5); }              // Beat 215    STROBE COLOR
+if ((runtime-offsetMillis) >=  118650 && (runtime-offsetMillis) <=  118653)  {  }                // Beat 216  
+if ((runtime-offsetMillis) >=  119170 && (runtime-offsetMillis) <=  119173) { RSTLT(); delay(6);Serial.print(15);delay(5);  }             // Beat 217  CENTERSPOT
+if ((runtime-offsetMillis) >=  119691 && (runtime-offsetMillis) <=  119694)  {  }               // Beat 218
+if ((runtime-offsetMillis) >=  120211 && (runtime-offsetMillis) <=  120214) { RSTLT(); delay(6);Serial.print(3);delay(5); }               // Beat 219   STROBE COLOR
+if ((runtime-offsetMillis) >=  120732 && (runtime-offsetMillis) <=  120735)  {  }               // Beat 220
+if ((runtime-offsetMillis) >=  121253 && (runtime-offsetMillis) <=  121256) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 221   CENTERSPOT
+if ((runtime-offsetMillis) >=  121773 && (runtime-offsetMillis) <=  121776) { RSTLT(); delay(6);Serial.print(3);delay(5); }                  // Beat 222   STROBE COLOR
+if ((runtime-offsetMillis) >=  122294 && (runtime-offsetMillis) <=  122297)  {  }               // Beat 223
+if ((runtime-offsetMillis) >=  122814 && (runtime-offsetMillis) <=  122817) { RSTLT(); delay(6);Serial.print(16);delay(5); }               // Beat 224   OUTSPOT
+if ((runtime-offsetMillis) >=  123335 && (runtime-offsetMillis) <=  123338) {         }      // Beat 225
+if ((runtime-offsetMillis) >=  123856 && (runtime-offsetMillis) <=  123859) { RSTLT(); delay(6);Serial.print(3);delay(5); }                 // Beat 226   STROBE COLOR
+if ((runtime-offsetMillis) >=  124376 && (runtime-offsetMillis) <=  124379)  {  }               // Beat 227
+if ((runtime-offsetMillis) >=  124897 && (runtime-offsetMillis) <=  124900)  {  }               // Beat 228
+if ((runtime-offsetMillis) >=  124817 && (runtime-offsetMillis) <=  124820) { RSTLT(); delay(6);Serial.print(17);delay(5); }                // Beat 229   SLOWSTROBE
+if ((runtime-offsetMillis) >=  125938 && (runtime-offsetMillis) <=  125941) {    }           // Beat 230
+if ((runtime-offsetMillis) >=  126459 && (runtime-offsetMillis) <=  126462) {    }           // Beat 231
+if ((runtime-offsetMillis) >=  126979 && (runtime-offsetMillis) <=  126982) {    }           // Beat 232
+if ((runtime-offsetMillis) >=  127500 && (runtime-offsetMillis) <=  127503) { RSTLT(); delay(6);Serial.print(15);delay(5); }              // Beat 233  CENTERSPOT
+if ((runtime-offsetMillis) >=  128020 && (runtime-offsetMillis) <=  128023)  {  }               // Beat 234
+if ((runtime-offsetMillis) >=  128541 && (runtime-offsetMillis) <=  128544)  {  }               // Beat 235
+if ((runtime-offsetMillis) >=  129062 && (runtime-offsetMillis) <=  129065) { RSTLT(); delay(6);Serial.print(17);delay(5); }                // Beat 236  SLOWSTROBE
+if ((runtime-offsetMillis) >=  129582 && (runtime-offsetMillis) <=  129585)  {  }               // Beat 237
+if ((runtime-offsetMillis) >=  130103 && (runtime-offsetMillis) <=  130106)  {  }               // Beat 238
+if ((runtime-offsetMillis) >=  130623 && (runtime-offsetMillis) <=  130626)  {  }               // Beat 239
+if ((runtime-offsetMillis) >=  131144 && (runtime-offsetMillis) <=  131147) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 240   CENTERSPOT
+if ((runtime-offsetMillis) >=  131665 && (runtime-offsetMillis) <=  131668)  {  }               // Beat 241
+if ((runtime-offsetMillis) >=  132185 && (runtime-offsetMillis) <=  132188)  {  }               // Beat 242
+if ((runtime-offsetMillis) >=  132706 && (runtime-offsetMillis) <=  132709) { RSTLT(); delay(6);Serial.print(17);delay(5); }               // Beat 243   SLOWSTROBE
+if ((runtime-offsetMillis) >=  133226 && (runtime-offsetMillis) <=  133229)  {  }               // Beat 244
+if ((runtime-offsetMillis) >=  133747 && (runtime-offsetMillis) <=  133750)  {  }               // Beat 245
+if ((runtime-offsetMillis) >=  134268 && (runtime-offsetMillis) <=  134271)  {  }               // Beat 246
+if ((runtime-offsetMillis) >=  134788 && (runtime-offsetMillis) <=  134791)  {  }               // Beat 247
+if ((runtime-offsetMillis) >=  135309 && (runtime-offsetMillis) <=  135312)  {  }               // Beat 248
+if ((runtime-offsetMillis) >=  135829 && (runtime-offsetMillis) <=  135832) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 249   CENTERSPOT
+if ((runtime-offsetMillis) >=  136350 && (runtime-offsetMillis) <=  136353)  {  }               // Beat 250
+if ((runtime-offsetMillis) >=  136871 && (runtime-offsetMillis) <=  136874)  {  }               // Beat 251
+if ((runtime-offsetMillis) >=  137391 && (runtime-offsetMillis) <=  137394) { RSTLT(); delay(6);Serial.print(17);delay(5); }               // Beat 252   SLOWSTROBE
+if ((runtime-offsetMillis) >=  137912 && (runtime-offsetMillis) <=  137915) {   }            // Beat 253
+if ((runtime-offsetMillis) >=  138432 && (runtime-offsetMillis) <=  138435)  {  }               // Beat 254
+if ((runtime-offsetMillis) >=  138953 && (runtime-offsetMillis) <=  138956)  {  }               // Beat 255
+if ((runtime-offsetMillis) >=  139474 && (runtime-offsetMillis) <=  139477) { RSTLT(); delay(6);Serial.print(2);delay(5); }                // Beat 256   STROBE WHITE
+if ((runtime-offsetMillis) >=  139994 && (runtime-offsetMillis) <=  139997)  {  }               // Beat 257
+if ((runtime-offsetMillis) >=  140515 && (runtime-offsetMillis) <=  140518)  {  }               // Beat 258
+if ((runtime-offsetMillis) >=  141035 && (runtime-offsetMillis) <=  141038)  {  }               // Beat 259
+if ((runtime-offsetMillis) >=  141556 && (runtime-offsetMillis) <=  141559)  {  }               // Beat 260
+if ((runtime-offsetMillis) >=  142077 && (runtime-offsetMillis) <=  142080) { RSTLT(); delay(6);Serial.print(19);delay(5); }               // Beat 261  METEOR GREEN
+if ((runtime-offsetMillis) >=  142597 && (runtime-offsetMillis) <=  142600)  {  }               // Beat 262
+if ((runtime-offsetMillis) >=  143118 && (runtime-offsetMillis) <=  143121)  {  }               // Beat 263
+if ((runtime-offsetMillis) >=  143638 && (runtime-offsetMillis) <=  143641)  {  }               // Beat 264
+if ((runtime-offsetMillis) >=  144159 && (runtime-offsetMillis) <=  144162)  {  }               // Beat 265
+if ((runtime-offsetMillis) >=  144680 && (runtime-offsetMillis) <=  144683)  {  }               // Beat 266
+if ((runtime-offsetMillis) >=  145200 && (runtime-offsetMillis) <=  145203)  {  }               // Beat 267
+if ((runtime-offsetMillis) >=  145721 && (runtime-offsetMillis) <=  145724)  {  }               // Beat 268
+if ((runtime-offsetMillis) >=  146241 && (runtime-offsetMillis) <=  146244) { RSTLT(); delay(6);Serial.print(14);delay(5); }             // Beat 269   METEOR WHITE
+if ((runtime-offsetMillis) >=  146762 && (runtime-offsetMillis) <=  146765) {   }            // Beat 270
+if ((runtime-offsetMillis) >=  147283 && (runtime-offsetMillis) <=  147286) {   }            // Beat 271
+if ((runtime-offsetMillis) >=  147803 && (runtime-offsetMillis) <=  147806) { RSTLT(); delay(6);Serial.print(16);delay(5); }               // Beat 272   OUTSPOT
+if ((runtime-offsetMillis) >=  148324 && (runtime-offsetMillis) <=  148327) {   }            // Beat 273
+if ((runtime-offsetMillis) >=  148844 && (runtime-offsetMillis) <=  148847) { RSTLT(); delay(6);Serial.print(3);delay(5); }             // Beat 274   STROBE COLOR
+if ((runtime-offsetMillis) >=  149365 && (runtime-offsetMillis) <=  149368) {   }            // Beat 275
+if ((runtime-offsetMillis) >=  149886 && (runtime-offsetMillis) <=  149889) {   }            // Beat 276
+if ((runtime-offsetMillis) >=  150406 && (runtime-offsetMillis) <=  150409) { RSTLT(); delay(6);Serial.print(14);delay(5); }              // Beat 277    METEOR WHITE
+if ((runtime-offsetMillis) >=  150927 && (runtime-offsetMillis) <=  150930) { RSTLT(); delay(6);Serial.print(15);delay(5); }               // Beat 278   CENTERSPOT
+if ((runtime-offsetMillis) >=  151447 && (runtime-offsetMillis) <=  151450)  {  }               // Beat 279
+if ((runtime-offsetMillis) >=  151968 && (runtime-offsetMillis) <=  151971)  {  }               // Beat 280
+if ((runtime-offsetMillis) >=  152489 && (runtime-offsetMillis) <=  152492)  {  }               // Beat 281
+if ((runtime-offsetMillis) >=  153009 && (runtime-offsetMillis) <=  153012)  {  }               // Beat 282
+if ((runtime-offsetMillis) >=  153530 && (runtime-offsetMillis) <=  153533)  {  }               // Beat 283
+if ((runtime-offsetMillis) >=  154050 && (runtime-offsetMillis) <=  154053)  {  }               // Beat 284
+if ((runtime-offsetMillis) >=  154571 && (runtime-offsetMillis) <=  154574)  {  }               // Beat 285
+if ((runtime-offsetMillis) >=  155092 && (runtime-offsetMillis) <=  155095) { RSTLT(); delay(6);Serial.print(18);delay(5); }              // Beat 286   METEOR PINK
+if ((runtime-offsetMillis) >=  155612 && (runtime-offsetMillis) <=  155615) { RSTLT(); delay(6);Serial.print(16);delay(5); }               // Beat 287  OUTSPOT
+if ((runtime-offsetMillis) >=  156133 && (runtime-offsetMillis) <=  156136) {    }           // Beat 288
+if ((runtime-offsetMillis) >=  156653 && (runtime-offsetMillis) <=  156656) { RSTLT(); delay(6);Serial.print(19);delay(5); }             // Beat 289   METEOR GREEN
+if ((runtime-offsetMillis) >=  157174 && (runtime-offsetMillis) <=  157177)  {  }               // Beat 290
+if ((runtime-offsetMillis) >=  157695 && (runtime-offsetMillis) <=  157698)  {  }               // Beat 291
+if ((runtime-offsetMillis) >=  158215 && (runtime-offsetMillis) <=  158218)  {  }               // Beat 292
+if ((runtime-offsetMillis) >=  158736 && (runtime-offsetMillis) <=  158739) { RSTLT(); delay(6);Serial.print(10);delay(5); }             // Beat 293    RAINBOW CYCLE
+if ((runtime-offsetMillis) >=  159256 && (runtime-offsetMillis) <=  159259) {  }               // Beat 294
+if ((runtime-offsetMillis) >=  159777 && (runtime-offsetMillis) <=  159780) {  }               // Beat 295
+if ((runtime-offsetMillis) >=  160298 && (runtime-offsetMillis) <=  160301) {  }               // Beat 296
+if ((runtime-offsetMillis) >=  160818 && (runtime-offsetMillis) <=  160821) {  }               // Beat 297
+if ((runtime-offsetMillis) >=  161339 && (runtime-offsetMillis) <=  161342) {  }               // Beat 298
+if ((runtime-offsetMillis) >=  161859 && (runtime-offsetMillis) <=  161862) {  }               // Beat 299
+if ((runtime-offsetMillis) >=  162380 && (runtime-offsetMillis) <=  162383) {  }               // Beat 300
+if ((runtime-offsetMillis) >=  162901 && (runtime-offsetMillis) <=  162904) {  }               // Beat 301
+if ((runtime-offsetMillis) >=  163421 && (runtime-offsetMillis) <=  163424) {  }               // Beat 302
+if ((runtime-offsetMillis) >=  163942 && (runtime-offsetMillis) <=  163945) {  }               // Beat 303
+if ((runtime-offsetMillis) >=  164462 && (runtime-offsetMillis) <=  164465) {  }               // Beat 304
+if ((runtime-offsetMillis) >=  164983 && (runtime-offsetMillis) <=  164986) {  }               // Beat 305
+if ((runtime-offsetMillis) >=  165504 && (runtime-offsetMillis) <=  165507) {  }               // Beat 306
+if ((runtime-offsetMillis) >=  166024 && (runtime-offsetMillis) <=  166027) {  }               // Beat 307
+if ((runtime-offsetMillis) >=  166545 && (runtime-offsetMillis) <=  166548) {  }               // Beat 308
+if ((runtime-offsetMillis) >=  167065 && (runtime-offsetMillis) <=  167068) { RSTLT(); delay(6);Serial.print(12);delay(5); }               // Beat 309   THEATER CHAASE RAINBOW
+if ((runtime-offsetMillis) >=  167586 && (runtime-offsetMillis) <=  167589) {  }               // Beat 310
+if ((runtime-offsetMillis) >=  168107 && (runtime-offsetMillis) <=  168110) {  }               // Beat 311
+if ((runtime-offsetMillis) >=  168627 && (runtime-offsetMillis) <=  168630) {  }               // Beat 312
+if ((runtime-offsetMillis) >=  169148 && (runtime-offsetMillis) <=  169151) {  }               // Beat 313
+if ((runtime-offsetMillis) >=  169668 && (runtime-offsetMillis) <=  169671) {  }               // Beat 314
+if ((runtime-offsetMillis) >=  170189 && (runtime-offsetMillis) <=  170192) {  }               // Beat 315
+if ((runtime-offsetMillis) >=  170710 && (runtime-offsetMillis) <=  170713) {  }               // Beat 316
+if ((runtime-offsetMillis) >=  171230 && (runtime-offsetMillis) <=  171233) {  }               // Beat 317
+if ((runtime-offsetMillis) >=  171751 && (runtime-offsetMillis) <=  171754) {  }               // Beat 318
+if ((runtime-offsetMillis) >=  172271 && (runtime-offsetMillis) <=  172274) {  }               // Beat 319
+if ((runtime-offsetMillis) >=  172792 && (runtime-offsetMillis) <=  172795) {  }               // Beat 320
+if ((runtime-offsetMillis) >=  173313 && (runtime-offsetMillis) <=  173316) { RSTLT(); delay(6);Serial.print(15);delay(5); }              // Beat 321   CENTER SPOT
+if ((runtime-offsetMillis) >=  173833 && (runtime-offsetMillis) <=  173836) {      }         // Beat 322
+if ((runtime-offsetMillis) >=  174354 && (runtime-offsetMillis) <=  174357) {      }         // Beat 323
+if ((runtime-offsetMillis) >=  174874 && (runtime-offsetMillis) <=  174877) {      }         // Beat 324
+if ((runtime-offsetMillis) >=  175395 && (runtime-offsetMillis) <=  175398) { RSTLT(); delay(6);Serial.print(14);delay(5); }             // Beat 325    METEOR WHITE
+if ((runtime-offsetMillis) >=  175916 && (runtime-offsetMillis) <=  175919) {      }         // Beat 326
+if ((runtime-offsetMillis) >=  176436 && (runtime-offsetMillis) <=  176439) {      }         // Beat 327
+if ((runtime-offsetMillis) >=  176957 && (runtime-offsetMillis) <=  176960) {      }         // Beat 328
+if ((runtime-offsetMillis) >=  177477 && (runtime-offsetMillis) <=  177480) {      }         // Beat 329
+if ((runtime-offsetMillis) >=  177998 && (runtime-offsetMillis) <=  178001) {      }         // Beat 330
+if ((runtime-offsetMillis) >=  178519 && (runtime-offsetMillis) <=  178522) {      }         // Beat 331
+if ((runtime-offsetMillis) >=  179039 && (runtime-offsetMillis) <=  179042) {      }         // Beat 332
+if ((runtime-offsetMillis) >=  179560 && (runtime-offsetMillis) <=  179563) {      }         // Beat 333
+if ((runtime-offsetMillis) >=  180080 && (runtime-offsetMillis) <=  180083) {      }         // Beat 334
+if ((runtime-offsetMillis) >=  180601 && (runtime-offsetMillis) <=  180604) {      }         // Beat 335
+if ((runtime-offsetMillis) >=  181122 && (runtime-offsetMillis) <=  181125) {      }         // Beat 336
+if ((runtime-offsetMillis) >=  181642 && (runtime-offsetMillis) <=  181645) { RSTLT(); delay(6);Serial.print(15);delay(5); }             // Beat 337   CENTERWSPOT
+if ((runtime-offsetMillis) >=  182163 && (runtime-offsetMillis) <=  182166) {      }         // Beat 338
+if ((runtime-offsetMillis) >=  182683 && (runtime-offsetMillis) <=  182686) {      }         // Beat 339
+if ((runtime-offsetMillis) >=  183204 && (runtime-offsetMillis) <=  183207) { RSTLT(); delay(6);Serial.print(3);delay(5); }               // Beat 340   STROBE COLOR
+if ((runtime-offsetMillis) >=  183725 && (runtime-offsetMillis) <=  183728) {     }          // Beat 341
+if ((runtime-offsetMillis) >=  184245 && (runtime-offsetMillis) <=  184248) {     }          // Beat 342
+if ((runtime-offsetMillis) >=  184766 && (runtime-offsetMillis) <=  184769) {     }          // Beat 343
+if ((runtime-offsetMillis) >=  185286 && (runtime-offsetMillis) <=  185289) {     }          // Beat 344
+if ((runtime-offsetMillis) >=  185807 && (runtime-offsetMillis) <=  185810) {     }          // Beat 345
+if ((runtime-offsetMillis) >=  186328 && (runtime-offsetMillis) <=  186331) {     }          // Beat 346
+if ((runtime-offsetMillis) >=  186848 && (runtime-offsetMillis) <=  186851) {     }          // Beat 347
+if ((runtime-offsetMillis) >=  187369 && (runtime-offsetMillis) <=  187372) {     }          // Beat 348
+if ((runtime-offsetMillis) >=  187889 && (runtime-offsetMillis) <=  187892) {     }          // Beat 349
+if ((runtime-offsetMillis) >=  188410 && (runtime-offsetMillis) <=  188413) {     }          // Beat 350
+if ((runtime-offsetMillis) >=  188931 && (runtime-offsetMillis) <=  188934) {     }          // Beat 351
+if ((runtime-offsetMillis) >=  189451 && (runtime-offsetMillis) <=  189454) { RSTLT(); delay(6);Serial.print(14);delay(5); }             // Beat 352   METEOR WHITE   
+if ((runtime-offsetMillis) >=  189972 && (runtime-offsetMillis) <=  189975) { RSTLT(); delay(6);Serial.print(15);delay(5); }             // Beat 353   CENTER SPOT
+if ((runtime-offsetMillis) >=  190492 && (runtime-offsetMillis) <=  190495) {    }           // Beat 354
+if ((runtime-offsetMillis) >=  191013 && (runtime-offsetMillis) <=  191016) {    }           // Beat 355
+if ((runtime-offsetMillis) >=  191534 && (runtime-offsetMillis) <=  191537) { RSTLT(); delay(6);Serial.print(3);delay(5); }              // Beat 356   STROBE COLOR
+if ((runtime-offsetMillis) >=  192054 && (runtime-offsetMillis) <=  192057) {    }            // Beat 357
+if ((runtime-offsetMillis) >=  192575 && (runtime-offsetMillis) <=  192578) {    }           // Beat 358
+if ((runtime-offsetMillis) >=  193095 && (runtime-offsetMillis) <=  193098) {    }          // Beat 359
+if ((runtime-offsetMillis) >=  193616 && (runtime-offsetMillis) <=  193619) {    }          // Beat 360
+if ((runtime-offsetMillis) >=  194137 && (runtime-offsetMillis) <=  194140) { RSTLT(); delay(6);Serial.print(2);delay(5); }              // Beat 361   STROBE WHITE
+if ((runtime-offsetMillis) >=  194657 && (runtime-offsetMillis) <=  194660) {     }           // Beat 362
+if ((runtime-offsetMillis) >=  195178 && (runtime-offsetMillis) <=  195181) {     }         // Beat 363
+if ((runtime-offsetMillis) >=  195698 && (runtime-offsetMillis) <=  195701) {     }       // Beat 364
+if ((runtime-offsetMillis) >=  196219 && (runtime-offsetMillis) <=  196222) {     }     // Beat 365
+if ((runtime-offsetMillis) >=  196740 && (runtime-offsetMillis) <=  196743) {     }   // Beat 366
+if ((runtime-offsetMillis) >=  197260 && (runtime-offsetMillis) <=  197263) {     }          // Beat 367
+if ((runtime-offsetMillis) >=  197781 && (runtime-offsetMillis) <=  197784) { RSTLT(); delay(6);Serial.print(16);delay(5); }             // Beat 368   OUTSPOT
+if ((runtime-offsetMillis) >=  198301 && (runtime-offsetMillis) <=  198304) {     }             // Beat 369
+if ((runtime-offsetMillis) >=  198822 && (runtime-offsetMillis) <=  198825) {     }             // Beat 370
+if ((runtime-offsetMillis) >=  199343 && (runtime-offsetMillis) <=  199346) { RSTLT(); delay(6);Serial.print(12);delay(5); }               // Beat 371    THEATER CHASE
+if ((runtime-offsetMillis) >=  199863 && (runtime-offsetMillis) <=  199866) {     }             // Beat 372
+if ((runtime-offsetMillis) >=  200384 && (runtime-offsetMillis) <=  200387) {     }             // Beat 373
+if ((runtime-offsetMillis) >=  200904 && (runtime-offsetMillis) <=  200907) {     }             // Beat 374
+if ((runtime-offsetMillis) >=  201425 && (runtime-offsetMillis) <=  201428) {     }             // Beat 375
+if ((runtime-offsetMillis) >=  201946 && (runtime-offsetMillis) <=  201949) {     }             // Beat 376
+if ((runtime-offsetMillis) >=  202466 && (runtime-offsetMillis) <=  202469) {     }             // Beat 377
+if ((runtime-offsetMillis) >=  202987 && (runtime-offsetMillis) <=  202990) {     }             // Beat 378
+if ((runtime-offsetMillis) >=  203507 && (runtime-offsetMillis) <=  203510) {     }             // Beat 379
+if ((runtime-offsetMillis) >=  204028 && (runtime-offsetMillis) <=  204031) {     }             // Beat 380
+if ((runtime-offsetMillis) >=  204549 && (runtime-offsetMillis) <=  204552) {     }             // Beat 381
+if ((runtime-offsetMillis) >=  205069 && (runtime-offsetMillis) <=  205072) {     }             // Beat 382
+if ((runtime-offsetMillis) >=  205590 && (runtime-offsetMillis) <=  205593) {     }             // Beat 383
+if ((runtime-offsetMillis) >=  206110 && (runtime-offsetMillis) <=  206113) { RSTLT(); delay(6);Serial.print(10);delay(5); }                // Beat 384   RAINBOW CYCLE
+if ((runtime-offsetMillis) >=  206631 && (runtime-offsetMillis) <=  206634) {     }             // Beat 385
+if ((runtime-offsetMillis) >=  207152 && (runtime-offsetMillis) <=  207155) {     }             // Beat 386
+if ((runtime-offsetMillis) >=  207672 && (runtime-offsetMillis) <=  207675) {     }             // Beat 387
+if ((runtime-offsetMillis) >=  208193 && (runtime-offsetMillis) <=  208196) {     }             // Beat 388
+if ((runtime-offsetMillis) >=  208713 && (runtime-offsetMillis) <=  208716) {     }             // Beat 389
+if ((runtime-offsetMillis) >=  209234 && (runtime-offsetMillis) <=  209237) {     }             // Beat 390
+if ((runtime-offsetMillis) >=  209755 && (runtime-offsetMillis) <=  209758) {     }             // Beat 391
+if ((runtime-offsetMillis) >=  210275 && (runtime-offsetMillis) <=  210278) { RSTLT(); delay(6);Serial.print(18);delay(5); }                 // Beat 392   METEOR RAIN PINK
+if ((runtime-offsetMillis) >=  210796 && (runtime-offsetMillis) <=  210799) {     }             // Beat 393
+if ((runtime-offsetMillis) >=  211316 && (runtime-offsetMillis) <=  211319) {     }             // Beat 394
+if ((runtime-offsetMillis) >=  211837 && (runtime-offsetMillis) <=  211840) {     }             // Beat 395
+if ((runtime-offsetMillis) >=  212358 && (runtime-offsetMillis) <=  212361) {     }             // Beat 396
+if ((runtime-offsetMillis) >=  212878 && (runtime-offsetMillis) <=  212881) { RSTLT(); delay(6);Serial.print(13);delay(5); }              // Beat 397   FIRE
+if ((runtime-offsetMillis) >=  213399 && (runtime-offsetMillis) <=  213402) {     }             // Beat 398
+if ((runtime-offsetMillis) >=  213919 && (runtime-offsetMillis) <=  213922) {     }             // Beat 399
+if ((runtime-offsetMillis) >=  214440 && (runtime-offsetMillis) <=  214443) {     }             // Beat 400
+if ((runtime-offsetMillis) >=  214961 && (runtime-offsetMillis) <=  214964) {     }             // Beat 401
+if ((runtime-offsetMillis) >=  215481 && (runtime-offsetMillis) <=  215484) {     }             // Beat 402
+if ((runtime-offsetMillis) >=  216002 && (runtime-offsetMillis) <=  216005) {     }             // Beat 403
+if ((runtime-offsetMillis) >=  216522 && (runtime-offsetMillis) <=  216525) {     }             // Beat 404
+if ((runtime-offsetMillis) >=  217043 && (runtime-offsetMillis) <=  217046) { RSTLT(); delay(6);Serial.print(8);delay(5); }                 // Beat 405   RUNNING LIGHTS
+if ((runtime-offsetMillis) >=  217564 && (runtime-offsetMillis) <=  217567) {     }             // Beat 406
+if ((runtime-offsetMillis) >=  218084 && (runtime-offsetMillis) <=  218087) {     }             // Beat 407
+if ((runtime-offsetMillis) >=  218605 && (runtime-offsetMillis) <=  218608) {     }             // Beat 408
+if ((runtime-offsetMillis) >=  219125 && (runtime-offsetMillis) <=  219128) {     }             // Beat 409
+if ((runtime-offsetMillis) >=  219646 && (runtime-offsetMillis) <=  219649) {     }             // Beat 410
+if ((runtime-offsetMillis) >=  220167 && (runtime-offsetMillis) <=  220170) {     }             // Beat 411
+if ((runtime-offsetMillis) >=  220687 && (runtime-offsetMillis) <=  220690) {     }             // Beat 412
+if ((runtime-offsetMillis) >=  221208 && (runtime-offsetMillis) <=  221211) { RSTLT(); delay(6);Serial.print(12);delay(5); }                // Beat 413  THEATER CHASE RAINBOW
+if ((runtime-offsetMillis) >=  221728 && (runtime-offsetMillis) <=  221731) {     }             // Beat 414
+if ((runtime-offsetMillis) >=  222249 && (runtime-offsetMillis) <=  222252) {     }             // Beat 415
+if ((runtime-offsetMillis) >=  222770 && (runtime-offsetMillis) <=  222773) {     }             // Beat 416
+if ((runtime-offsetMillis) >=  223290 && (runtime-offsetMillis) <=  223293) {     }             // Beat 417
+if ((runtime-offsetMillis) >=  223811 && (runtime-offsetMillis) <=  223814) {     }             // Beat 418
+if ((runtime-offsetMillis) >=  224331 && (runtime-offsetMillis) <=  224334) {     }             // Beat 419
+if ((runtime-offsetMillis) >=  224852 && (runtime-offsetMillis) <=  224855) {     }             // Beat 420
+if ((runtime-offsetMillis) >=  225473 && (runtime-offsetMillis) <=  225476) { RSTLT(); delay(6);Serial.print(17);delay(5); }                // Beat 421   SLOW STROBE
+if ((runtime-offsetMillis) >=  225893 && (runtime-offsetMillis) <=  225896) {     }             // Beat 422
+if ((runtime-offsetMillis) >=  226414 && (runtime-offsetMillis) <=  226417) {     }             // Beat 423
+if ((runtime-offsetMillis) >=  226934 && (runtime-offsetMillis) <=  226937) {     }             // Beat 424
+if ((runtime-offsetMillis) >=  227455 && (runtime-offsetMillis) <=  227458) {     }             // Beat 425
+if ((runtime-offsetMillis) >=  227976 && (runtime-offsetMillis) <=  227979) {     }             // Beat 426
+if ((runtime-offsetMillis) >=  228496 && (runtime-offsetMillis) <=  228499) {     }             // Beat 427
+if ((runtime-offsetMillis) >=  229017 && (runtime-offsetMillis) <=  229020) {     }             // Beat 428
+if ((runtime-offsetMillis) >=  229537 && (runtime-offsetMillis) <=  229540) { RSTLT(); delay(6);Serial.print(19);delay(5); }                // Beat 429   METEOR GREEN
+if ((runtime-offsetMillis) >=  230058 && (runtime-offsetMillis) <=  230061) {     }             // Beat 430
+if ((runtime-offsetMillis) >=  230579 && (runtime-offsetMillis) <=  230582) {     }             // Beat 431
+if ((runtime-offsetMillis) >=  231099 && (runtime-offsetMillis) <=  231102) {     }             // Beat 432
+if ((runtime-offsetMillis) >=  231620 && (runtime-offsetMillis) <=  231623) {     }             // Beat 433
+if ((runtime-offsetMillis) >=  232140 && (runtime-offsetMillis) <=  232143) {     }             // Beat 434
+if ((runtime-offsetMillis) >=  232661 && (runtime-offsetMillis) <=  232664) {     }             // Beat 435
+if ((runtime-offsetMillis) >=  233182 && (runtime-offsetMillis) <=  233185) {     }             // Beat 436
+if ((runtime-offsetMillis) >=  233702 && (runtime-offsetMillis) <=  233705) { RSTLT(); delay(6);Serial.print(13);delay(5); }                // Beat 437   FIRE
+if ((runtime-offsetMillis) >=  234223 && (runtime-offsetMillis) <=  234226) {     }             // Beat 438
+if ((runtime-offsetMillis) >=  234743 && (runtime-offsetMillis) <=  234746) {     }             // Beat 439
+if ((runtime-offsetMillis) >=  235264 && (runtime-offsetMillis) <=  235267) {     }             // Beat 440
+if ((runtime-offsetMillis) >=  235785 && (runtime-offsetMillis) <=  235788) {     }             // Beat 441
+if ((runtime-offsetMillis) >=  236305 && (runtime-offsetMillis) <=  236308) {     }             // Beat 442
+if ((runtime-offsetMillis) >=  236826 && (runtime-offsetMillis) <=  236829) {     }             // Beat 443
+if ((runtime-offsetMillis) >=  237346 && (runtime-offsetMillis) <=  237349) {     }             // Beat 444
+if ((runtime-offsetMillis) >=  237867 && (runtime-offsetMillis) <=  237870) { RSTLT(); delay(6);Serial.print(3);delay(5); }               // Beat 445   STROBE COLOR
+if ((runtime-offsetMillis) >=  238388 && (runtime-offsetMillis) <=  238391) {     }             // Beat 446
+if ((runtime-offsetMillis) >=  238908 && (runtime-offsetMillis) <=  238911) {     }             // Beat 447
+if ((runtime-offsetMillis) >=  239429 && (runtime-offsetMillis) <=  239432) {     }             // Beat 448
+if ((runtime-offsetMillis) >=  239949 && (runtime-offsetMillis) <=  239952) {     }             // Beat 449
+if ((runtime-offsetMillis) >=  240470 && (runtime-offsetMillis) <=  240473) {     }             // Beat 450
+if ((runtime-offsetMillis) >=  240991 && (runtime-offsetMillis) <=  240994) {     }             // Beat 451
+if ((runtime-offsetMillis) >=  241511 && (runtime-offsetMillis) <=  241514) {     }             // Beat 452
+if ((runtime-offsetMillis) >=  242032 && (runtime-offsetMillis) <=  242035) { RSTLT(); delay(6);Serial.print(4);delay(5); }                 // Beat 453   Twinkle color
+if ((runtime-offsetMillis) >=  242552 && (runtime-offsetMillis) <=  242555) {     }             // Beat 454
+if ((runtime-offsetMillis) >=  243073 && (runtime-offsetMillis) <=  243076) {     }             // Beat 455
+if ((runtime-offsetMillis) >=  243594 && (runtime-offsetMillis) <=  243597) {     }             // Beat 456
+if ((runtime-offsetMillis) >=  244114 && (runtime-offsetMillis) <=  244117) {     }             // Beat 457
+if ((runtime-offsetMillis) >=  244635 && (runtime-offsetMillis) <=  244638) {     }             // Beat 458
+if ((runtime-offsetMillis) >=  245155 && (runtime-offsetMillis) <=  245158) {     }             // Beat 459
+if ((runtime-offsetMillis) >=  245676 && (runtime-offsetMillis) <=  245679) {     }             // Beat 460
+if ((runtime-offsetMillis) >=  246197 && (runtime-offsetMillis) <=  246200) {     }             // Beat 461
+if ((runtime-offsetMillis) >=  246717 && (runtime-offsetMillis) <=  246720) {     }             // Beat 462
+if ((runtime-offsetMillis) >=  247238 && (runtime-offsetMillis) <=  247241) {     }             // Beat 463
+if ((runtime-offsetMillis) >=  247758 && (runtime-offsetMillis) <=  247761) {     }             // Beat 464
+if ((runtime-offsetMillis) >=  248279 && (runtime-offsetMillis) <=  248282) {     }             // Beat 465
+if ((runtime-offsetMillis) >=  248800 && (runtime-offsetMillis) <=  248803) {     }             // Beat 466
+if ((runtime-offsetMillis) >=  249320 && (runtime-offsetMillis) <=  249323) {     }             // Beat 467
+if ((runtime-offsetMillis) >=  249841 && (runtime-offsetMillis) <=  249844) {     }             // Beat 468
+if ((runtime-offsetMillis) >=  250361 && (runtime-offsetMillis) <=  250364) {     }             // Beat 469
+if ((runtime-offsetMillis) >=  250882 && (runtime-offsetMillis) <=  250885) { RSTLT(); delay(6);Serial.print(20);delay(5); setup(); }             // Beat 470  Snow Sparkle until restart
+//   Slave skull program ends at 248356
+
+
+}  // void loop
+
+
+
+//'''''''''''''''''''''''''''''''''''''''''''''''''''''''''End of timeline'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
+void RSTLT()
+{digitalWrite (LIGHTSOFF,HIGH);delay(2);digitalWrite (LIGHTSOFF,LOW);}
