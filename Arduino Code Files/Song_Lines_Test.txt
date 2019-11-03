@@ -1,0 +1,137 @@
+//  Servo Limits for DELTA SKULL
+
+ // NOD  MAX UP 30   --MID 80--  MAX DOWN 110  
+ // SHAKE  MAX STBD 50   --MID 98-- MAX PORT 145
+// TILT  MAX STBD 130   --MID 95--  MAX PORT 50
+// JAW  MAX OPEN 130   --MID 100--  MAX CLOSED 75    
+// Eye X  MAX STBD 50 & Y70   --MID 95 --  MAX PORT 145  
+// Eye Y  MAX UP 115   --MID 65 --  MAX Down 30
+
+#include <VarSpeedServo.h>
+#include <Adafruit_NeoPixel.h>
+
+// Servo 
+VarSpeedServo servo1;   // Nod
+VarSpeedServo servo2;   // Shake
+VarSpeedServo servo3;   // Tilt
+VarSpeedServo servo4;   // Jaw
+VarSpeedServo servo5;   // Eye X
+VarSpeedServo servo6;   // Eye Y
+
+
+const int servoPin1 = 3;
+const int servoPin2 = 5;
+const int servoPin3 = 6;
+const int servoPin4 = 9;
+const int servoPin5 = 10;
+const int servoPin6 = 11;
+
+
+
+// NeoPixel
+#define PIN  2
+#define NUMPIXELS 2
+Adafruit_NeoPixel eyes = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() 
+{
+
+
+eyes.begin(); // Initialisierung der NeoPixel
+
+
+servo1.attach(servoPin1);
+servo1.write(70,40,false);  // NOD  MAX UP 30   --MID 80--  MAX DOWN 110 
+servo2.attach(servoPin2);
+servo2.write(98,40,false); // SHAKE  MAX STBD 50   --MID 98-- MAX PORT 145
+servo3.attach(servoPin3);
+servo3.write(95,40,false); // TILT  MAX STBD 130   --MID 95--  MAX PORT 50
+servo4.attach(servoPin4);
+servo4.write(75,40,false); // JAW  MAX OPEN 130   --MID 100--  MAX CLOSED 75 
+servo5.attach(servoPin5);
+servo5.write(95,40,false); // Eye X  MAX STBD 50 & Y70   --MID 95 --  MAX PORT 145  
+servo6.attach(servoPin6);
+servo6.write(65,40,false); // Eye Y  MAX UP 115   --MID 65 --  MAX Down 30
+delay(200);
+
+//   Start of time coded action
+
+
+    eyes.setPixelColor(0, eyes.Color(0,128,0)); // Eyes white to signal ready waiting for startsignal from Adafruit
+    eyes.setPixelColor(1, eyes.Color(0,128,0)); // Eyes white to signal ready waiting for startsignal from Adafruit
+    eyes.show(); // This sends the updated pixel color to the hardware.
+}
+
+void loop() 
+{
+// Eyes countdown from 3
+    eyes.setPixelColor(0, eyes.Color(0,0,128)); 
+    eyes.setPixelColor(1, eyes.Color(0,0,128)); 
+    eyes.show(); 
+    delay(100);
+    eyes.setPixelColor(0, eyes.Color(0,0,0)); 
+    eyes.setPixelColor(1, eyes.Color(0,0,0)); 
+    eyes.show(); 
+    delay(900);
+    
+    eyes.setPixelColor(0, eyes.Color(0,0,128)); 
+    eyes.setPixelColor(1, eyes.Color(0,0,128)); 
+    eyes.show(); 
+    delay(100);
+    eyes.setPixelColor(0, eyes.Color(0,0,0)); 
+    eyes.setPixelColor(1, eyes.Color(0,0,0)); 
+    eyes.show(); 
+    delay(900);
+    
+    eyes.setPixelColor(0, eyes.Color(128,0,0)); 
+    eyes.setPixelColor(1, eyes.Color(128,0,0)); 
+    eyes.show(); 
+    delay(100);
+    eyes.setPixelColor(0, eyes.Color(0,0,0)); 
+    eyes.setPixelColor(1, eyes.Color(0,0,0)); 
+    eyes.show(); 
+    delay(900);
+    
+    eyes.setPixelColor(0, eyes.Color(0,128,0)); 
+    eyes.setPixelColor(1, eyes.Color(0,128,0)); 
+    eyes.show(); 
+
+ // JAW  MAX OPEN 130   --MID 100--  MAX CLOSED 75 
+
+
+
+servo4.write(75,80,false); 
+delay(100);
+servo4.write(95,80,false); 
+delay(100);
+servo4.write(75,80,false);
+delay(100);
+servo4.write(95,80,false);  
+delay(100);
+servo4.write(75,80,false);
+delay(100);
+servo4.write(105,80,false); 
+delay(200);
+servo4.write(75,80,false);
+delay(100);
+servo4.write(95,80,false);  
+delay(100);
+servo4.write(75,80,false);
+delay(100);
+servo4.write(110,80,false);  
+delay(400);
+servo4.write(75,80,false);
+
+    
+
+
+delay(3000);
+        
+eyes.setPixelColor(0, eyes.Color(0,0,0)); 
+eyes.setPixelColor(1, eyes.Color(0,0,0)); 
+eyes.show(); 
+delay(1000);
+ 
+}
+
+

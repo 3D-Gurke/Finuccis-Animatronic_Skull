@@ -1,0 +1,79 @@
+#include <VarSpeedServo.h>
+#include <Adafruit_NeoPixel.h>
+
+// Servo 
+VarSpeedServo servo1;   // NOD
+VarSpeedServo servo2;   // SHAKE              
+VarSpeedServo servo3;   // TILT
+VarSpeedServo servo4;   // JAW
+VarSpeedServo servo5;   // Eye X
+VarSpeedServo servo6;   // Eye Y
+
+const int servoPin1 = 3;
+const int servoPin2 = 5;
+const int servoPin3 = 6;
+const int servoPin4 = 9;
+const int servoPin5 = 10;
+const int servoPin6 = 11;
+
+
+// NeoPixel
+#define PIN  2
+#define NUMPIXELS 2
+Adafruit_NeoPixel eyes = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() 
+{
+
+eyes.begin();
+
+// all servos 90°
+
+
+
+servo1.attach(servoPin1);
+servo1.write(90,30,false); 
+servo2.attach(servoPin2);
+servo2.write(90,30,false); 
+servo3.attach(servoPin3);
+servo3.write(90,30,false); 
+servo4.attach(servoPin4);
+servo4.write(90,30,false);
+servo5.attach(servoPin5);
+servo5.write(90,30,false); 
+servo6.attach(servoPin6);
+servo6.write(90,30,false); 
+
+
+eyes.setPixelColor(0, eyes.Color(0,0,0));
+eyes.setPixelColor(1, eyes.Color(0,0,0)); 
+eyes.show();
+}
+void loop() 
+{
+eyes.setPixelColor(0, eyes.Color(0,100,0));
+eyes.setPixelColor(1, eyes.Color(0,100,0)); 
+eyes.show();
+servo1.write(90,30,false);        // eyes light green when servo in 90° neutral
+delay(3000);
+eyes.setPixelColor(0, eyes.Color(100,0,0));
+eyes.setPixelColor(1, eyes.Color(100,0,0)); 
+eyes.show();
+servo1.write(100,30,false);       // eyes light red when servo in tests limit
+delay(3000);
+eyes.setPixelColor(0, eyes.Color(0,100,0));
+eyes.setPixelColor(1, eyes.Color(0,100,0)); 
+eyes.show();
+servo1.write(90,30,false);        // eyes light green when servo in 90° neutral
+delay(3000);
+eyes.setPixelColor(0, eyes.Color(100,0,0));
+eyes.setPixelColor(1, eyes.Color(100,0,0)); 
+eyes.show();
+servo1.write(80,30,false);       // eyes light red when servo in tests limit
+delay(3000);
+eyes.setPixelColor(0, eyes.Color(0,100,0));
+eyes.setPixelColor(1, eyes.Color(0,100,0)); 
+eyes.show();
+servo1.write(90,30,false);        // eyes light green when servo in 90° neutral
+
+}
