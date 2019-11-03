@@ -44,12 +44,3 @@ You may remix as you see fit. Have fun und viel Glück!
 Glück auf!
 
 3D-Gurke
-
-
-
-    Added a second step down voltage regulator to the assemby, because some Arduino Nano did not work correctly on a one regulator configuration.
-    Hence, updated Material List
-    Added a capacitor to the power supply line of the LEDs in the eyes as specified by LED manufacturer.
-
-
-
