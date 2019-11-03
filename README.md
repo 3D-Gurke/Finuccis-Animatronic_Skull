@@ -31,20 +31,20 @@ I have not specifically calculated the cost of a complete skull, but I would est
 below 100 EUR. 
 A pretty attractive price for an animatronic 3 axis skull with RGB lighted 2 axis eyes.
 All hole measures of the printable parts have been chosen small so you can drill the holes to the dimension you need.
-This way you can easily convert from metric to imperial measure. For instance: The tube for the eyes servo board to connect to the center eye ball is 6mm or approximately 1/4 inch. You will have to drill the holes in the board and the center eye ball accordingly.
+This way you can easily convert from metric to imperial measure. For instance: The tube for the eyes servo board to connect to the center eye ball is 4mm or approximately 1/6 inch. You will have to drill the holes in the board and the center eye ball accordingly.
 
-Fuction Test of this project: www.youtube.com/watch?v=REK2ZNp7vrE&feature=youtu.be
-Syncronization test: https://www.youtube.com/watch?v=_bPRN539xfE
-Complete set up :   https://www.youtube.com/watch?v=9FpQztl9sac
+Video-Tutorials this project: https://www.youtube.com/watch?v=9NNKajxI0-s&list=PLTyc4D895PUEJc8eNipVYug8fxN45OCBS
+Final Installation, as run on Oct 31st 2019 : https://www.youtube.com/watch?v=-8c9RkCJJGA
 
-Please find all necessary files in the branches.
+Please find all necessary files in the folders.
+
 You may remix as you see fit. Have fun und viel Glück!
 
 Glück auf!
 
 3D-Gurke
 
-Updates: 03.July 2019 Amended JPG files in schematics
+
 
     Added a second step down voltage regulator to the assemby, because some Arduino Nano did not work correctly on a one regulator configuration.
     Hence, updated Material List
